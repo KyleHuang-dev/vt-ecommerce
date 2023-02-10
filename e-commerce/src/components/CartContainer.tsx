@@ -1,11 +1,16 @@
 import CartItem from "@/src/components/CartItem";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CART_ACTION_TYPES } from "../store/cart/cart.model";
 
+function CartContainer({ cart = [] }) {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch({ type: CART_ACTION_TYPES.GET_TOTAL });
+    });
 
-    function CartContainer({ cart = [] }) {
-        const dispatch = useDispatch()
-
+    const totalAmount = useSelector((state) => state.totalAmount);
+    const totalQuantity = useSelector((state) => state.totalQuantity);
     if (cart.length === 0) {
         return (
             <section className="cart">
@@ -22,10 +27,11 @@ import { CART_ACTION_TYPES } from "../store/cart/cart.model";
             {/* cart header */}
             <header>
                 <h2>your bag</h2>
+                <h5>total quantity: {totalQuantity}</h5>
             </header>
             {/* cart items */}
             <article>
-                {cart.map(item => {
+                {cart.map((item) => {
                     return <CartItem key={item.id} {...item} />;
                 })}
             </article>
@@ -34,13 +40,20 @@ import { CART_ACTION_TYPES } from "../store/cart/cart.model";
                 <hr />
                 <div className="cart-total">
                     <h4>
-                        total <span>$0.00</span>
+                        total <span>${totalAmount}</span>
                     </h4>
                 </div>
-                <button onClick= {()=> dispatch({type:CART_ACTION_TYPES.CLEAR_CART})}className="btn clear-btn">clear cart</button>
+                <button
+                    onClick={() =>
+                        dispatch({ type: CART_ACTION_TYPES.CLEAR_CART })
+                    }
+                    className="btn clear-btn"
+                >
+                    clear cart
+                </button>
             </footer>
         </section>
     );
 }
 
-      export default CartContainer;
+export default CartContainer;
