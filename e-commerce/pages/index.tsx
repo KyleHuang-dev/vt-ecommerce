@@ -1,8 +1,5 @@
-
-
+import Body from "@/src/components/Body";
 
 export default function Home() {
-  return (
-      <h1>Hello</h1>
-  )
+    return <Body />;
 }
