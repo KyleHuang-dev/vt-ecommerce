@@ -42,6 +42,7 @@ export default function NavBar(props) {
                 <nav>
                     {sections.map((section) => (
                         <Link
+                            key={section.id}
                             variant="button"
                             color="text.primary"
                             href={section.url}

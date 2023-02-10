@@ -5,36 +5,34 @@ import {
     CardActions,
     CardContent,
     CardMedia,
+    Grid,
     Typography,
 } from "@mui/material";
 
-export default function ProductCard(props) {
-    console.log({ props });
-    return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
+export default function ProductCard({ products }) {
+    const productList = products;
+
+    return productList.map((product) => (
+        <Grid key={product.id} item xs={4}>
+            <Card sx={{ maxWidth: 200 }}>
                 <CardMedia
-                    component="img"
-                    height="140"
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    alt="green iguana"
+                    sx={{ height: 150 }}
+                    image={product.imageUrl}
+                    title={product.name}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Lizard
+                        {product.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles,
-                        with over 6,000 species, ranging across all continents
-                        except Antarctica
+                        {product.price}
                     </Typography>
+                    <Button size="small">View Detail</Button>
                 </CardContent>
-            </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary">
-                    Share
-                </Button>
-            </CardActions>
-        </Card>
-    );
+                <CardActions>
+                    <Button size="small">Add to Cart</Button>
+                </CardActions>
+            </Card>
+        </Grid>
+    ));
 }
