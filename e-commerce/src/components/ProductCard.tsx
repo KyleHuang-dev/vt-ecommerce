@@ -3,7 +3,6 @@ import AddToCart from "./AddToCart";
 import {
     Button,
     Card,
-    CardActionArea,
     CardActions,
     CardContent,
     CardMedia,
@@ -12,12 +11,10 @@ import {
 } from "@mui/material";
 import { useCart } from "../store/cart/cart.hook";
 
-export default function ProductCard({ products }) {
+export default function ProductCard({ product }) {
     const router = useRouter();
-    const productList = products;
-    const { addItemToCart, cartItems } = useCart();
 
-    return productList.map((product) => (
+    return (
         <Grid key={product.id} item xs={4}>
             <Card sx={{ maxWidth: 200 }}>
                 <CardMedia
@@ -44,5 +41,5 @@ export default function ProductCard({ products }) {
                 </CardActions>
             </Card>
         </Grid>
-    ));
+    );
 }

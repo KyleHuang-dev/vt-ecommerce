@@ -1,16 +1,14 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CART_ACTION_TYPES } from "../store/cart/cart.model";
 import { useCart } from "../store/cart/cart.hook";
 import ChangeQuantityButton from "./ChangeQuantityButton";
 ChangeQuantityButton;
 
-const CartItem = ({ product }) => {
+const CartItem = (product) => {
     const { clearItemFromCart, cartItems } = useCart();
     const incButtonProps = { option: "inc", product };
     const decButtonProps = { option: "dec", product };
+
     let { id, imageUrl, name, price, quantity } = product;
-    const dispatch = useDispatch();
 
     return (
         <div className="cart-item">

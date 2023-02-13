@@ -1,9 +1,9 @@
-import { store } from "@/src/store/store";
+import { persistor, store } from "@/src/store/store";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import AppBar from "../src/components/AppBar";
-Provider;
 
 export default function App({ Component, pageProps }: AppProps) {
     const sections = [
@@ -14,8 +14,10 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Provider store={store}>
-                <AppBar title="E-Commerce" sections={sections} />
-                <Component {...pageProps} />
+                <PersistGate persistor={persistor}>
+                    <AppBar title="E-Commerce" sections={sections} />
+                    <Component {...pageProps} />
+                </PersistGate>
             </Provider>
         </>
     );

@@ -1,16 +1,18 @@
 import CartItem from "@/src/components/CartItem";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { useCart } from "../store/cart/cart.hook";
 import { CART_ACTION_TYPES } from "../store/cart/cart.model";
+import ProductCard from "./ProductCard";
 
 function CartContainer({ cart = [] }) {
-    const { cartCount: totalQuantity, cartTotal: totalAmount } = useCart();
-
+    const {
+        cartCount: totalQuantity,
+        cartTotal: totalAmount,
+        clearItemFromCart,
+        cartItems,
+    } = useCart();
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch({ type: CART_ACTION_TYPES.GET_TOTAL });
-    });
 
     if (cart.length === 0) {
         return (
@@ -31,11 +33,23 @@ function CartContainer({ cart = [] }) {
                 <h5>total quantity: {totalQuantity}</h5>
             </header>
             {/* cart items */}
-            <article>
+            <Grid container>
                 {cart.map((item) => {
-                    return <CartItem key={item.id} {...item} />;
+                    return (
+                        <Grid container>
+                            <ProductCard key={item.id} product={item} />
+                            <Button
+                                onClick={() =>
+                                    clearItemFromCart(cartItems, item)
+                                }
+                                className="remove-btn"
+                            >
+                                remove
+                            </Button>
+                        </Grid>
+                    );
                 })}
-            </article>
+            </Grid>
             {/* cart footer */}
             <footer>
                 <hr />

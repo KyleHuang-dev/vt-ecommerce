@@ -1,5 +1,4 @@
 import ProductCard from "./ProductCard";
-
 import Products from "../../pruduct";
 import { Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";
@@ -13,7 +12,7 @@ export default function Body() {
     };
 
     function searchData(data: string) {
-        let tempArr = products.filter((product) => {
+        let tempArr = Products.filter((product) => {
             const inputData = data.toLocaleLowerCase();
             const productName = product.name.toLowerCase();
 
@@ -34,8 +33,11 @@ export default function Body() {
                 Search
             </Button>
             <Grid container>
-                <ProductCard products={products} />
+                {products.map((product) => (
+                    <ProductCard product={product} />
+                ))}
             </Grid>
+
             <CartPreview />
         </>
     );
