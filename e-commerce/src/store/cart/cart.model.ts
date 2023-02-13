@@ -3,7 +3,7 @@ import { ActionType, createAction, getType } from "typesafe-actions";
 import pruduct from "@/pruduct";
 
 // import { CategoryItem } from '../categories/category.model'
-export type CategoryItem = {
+export type ProductItem = {
     id: number;
     imageUrl: string;
     name: string;
@@ -21,7 +21,7 @@ export enum CART_ACTION_TYPES {
     GET_TOTAL = "GET_TOTAL",
 }
 
-export type CartItem = CategoryItem & {
+export type CartItem = ProductItem & {
     quantity: number;
 };
 
@@ -68,13 +68,15 @@ export interface IModel {
     readonly cartItems: CartItem[];
     readonly totalAmount: number;
     readonly totalQuantity: number;
+    readonly products: ProductItem[];
 }
 
 export const CART_INITIAL_STATE: IModel = {
     isCartOpen: false,
-    cartItems: [...pruduct],
+    cartItems: [],
     totalAmount: 0,
     totalQuantity: 0,
+    products: [...pruduct],
 };
 
 export const cartReducer = (
@@ -88,57 +90,68 @@ export const cartReducer = (
         case getType(setCartItems):
             return { ...state, cartItems: action.payload };
 
+        // case getType(setRemoveItemFromCart):
+        //     return {
+        //         ...state,
+        //         cartItems: state.cartItems.filter(
+        //             (cartItem) => cartItem.id !== action.payload.props.id
+        //         ),
+        //     };
         case getType(setRemoveItemFromCart):
             return {
                 ...state,
-                cartItems: state.cartItems.filter(
-                    (cartItem) => cartItem.id !== action.payload.props.id
-                ),
+                cartItems: action.payload,
             };
+        // case getType(setIncreaseItemFromCar):
+        //     return {
+        //         ...state,
+        //         cartItems: state.cartItems.map((item) => {
+        //             return item.id === action.payload.props.id
+        //                 ? { ...item, quantity: item.quantity + 1 }
+        //                 : item;
+        //         }),
+        // };
+
         case getType(setIncreaseItemFromCar):
-            return {
-                ...state,
-                cartItems: state.cartItems.map((item) => {
-                    return item.id === action.payload.props.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item;
-                }),
-            };
+            return { ...state, cartItems: action.payload };
+        // case getType(setDecreaseItemFromCar):
+        //     return {
+        //         ...state,
+        //         cartItems: state.cartItems.map((item) => {
+        //             return item.id === action.payload.props.id
+        //                 ? { ...item, quantity: item.quantity - 1 }
+        //                 : item;
+        //         }),
+        //     };
         case getType(setDecreaseItemFromCar):
-            return {
-                ...state,
-                cartItems: state.cartItems.map((item) => {
-                    return item.id === action.payload.props.id
-                        ? { ...item, quantity: item.quantity - 1 }
-                        : item;
-                }),
-            };
+            return { ...state, carItems: action.payload };
+
         case getType(setClearCart):
             return {
                 ...state,
                 cartItems: [],
             };
 
-        case getType(setGetTotal):
-            let { totalQuantity, totalAmount } = state.cartItems.reduce(
-                (acc, curItem) => {
-                    const { price, quantity } = curItem;
-                    acc.totalQuantity += quantity;
-                    acc.totalAmount += price * quantity;
+        // case getType(setGetTotal):
+        //     let { totalQuantity, totalAmount } = state.cartItems.reduce(
+        //         (acc, curItem) => {
+        //             const { price, quantity } = curItem;
+        //             acc.totalQuantity += quantity;
+        //             acc.totalAmount += price * quantity;
 
-                    return acc;
-                },
-                {
-                    totalQuantity: 0,
-                    totalAmount: 0,
-                }
-            );
-            totalQuantity = parseFloat(totalQuantity.toFixed(2));
-            return {
-                ...state,
-                totalAmount,
-                totalQuantity,
-            };
+        //             return acc;
+        //         },
+        //         {
+        //             totalQuantity: 0,
+        //             totalAmount: 0,
+        //         }
+        //     );
+        //     totalQuantity = parseFloat(totalQuantity.toFixed(2));
+        //     return {
+        //         ...state,
+        //         totalAmount,
+        //         totalQuantity,
+        //     };
 
         default:
             return state;

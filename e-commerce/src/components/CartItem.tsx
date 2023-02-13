@@ -1,9 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CART_ACTION_TYPES } from "../store/cart/cart.model";
+import { useCart } from "../store/cart/cart.hook";
+import ChangeQuantityButton from "./ChangeQuantityButton";
+ChangeQuantityButton;
 
-const CartItem = (props) => {
-    let { id, imageUrl, name, price, quantity } = props;
+const CartItem = ({ product }) => {
+    const { clearItemFromCart, cartItems } = useCart();
+    const incButtonProps = { option: "inc", product };
+    const decButtonProps = { option: "dec", product };
+    let { id, imageUrl, name, price, quantity } = product;
     const dispatch = useDispatch();
 
     return (
@@ -14,14 +20,7 @@ const CartItem = (props) => {
                 <h4 className="item-price">${price}</h4>
                 {/* remove button */}
                 <button
-                    onClick={() =>
-                        dispatch({
-                            type: CART_ACTION_TYPES.REMOVE_ITEM_FROM_CART,
-                            payload: {
-                                props,
-                            },
-                        })
-                    }
+                    onClick={() => clearItemFromCart(cartItems, product)}
                     className="remove-btn"
                 >
                     remove
@@ -29,31 +28,11 @@ const CartItem = (props) => {
             </div>
             <div>
                 {/* increase amount */}
-                <button
-                    onClick={() =>
-                        dispatch({
-                            type: CART_ACTION_TYPES.INCREASE_ITEM_FROM_CART,
-                            payload: { props },
-                        })
-                    }
-                    className="quantity-btn"
-                >
-                    Inc
-                </button>
+                <ChangeQuantityButton buttonProps={incButtonProps} />
                 {/* quantity */}
                 <h2>{quantity}</h2>
                 {/* decrease quantity */}
-                <button
-                    onClick={() =>
-                        dispatch({
-                            type: CART_ACTION_TYPES.DECREASE_ITEM_FROM_CART,
-                            payload: { props },
-                        })
-                    }
-                    className="quantity-btn"
-                >
-                    Dec
-                </button>
+                <ChangeQuantityButton buttonProps={decButtonProps} />
             </div>
         </div>
     );

@@ -7,19 +7,12 @@ import Link from "@mui/material/Link";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { CART_ACTION_TYPES } from "../store/cart/cart.model";
+import { useCart } from "../store/cart/cart.hook";
 
 export default function NavBar(props) {
     const { sections, title } = props;
 
-    const totalQuantity = useSelector((state) => state.totalQuantity);
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch({ type: CART_ACTION_TYPES.GET_TOTAL });
-    });
+    const { cartCount } = useCart();
 
     return (
         <AppBar
@@ -53,7 +46,7 @@ export default function NavBar(props) {
                     ))}
 
                     <IconButton aria-label="cart">
-                        <Badge badgeContent={totalQuantity} color="secondary">
+                        <Badge badgeContent={cartCount} color="secondary">
                             <ShoppingCartIcon />
                         </Badge>
                     </IconButton>

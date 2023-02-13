@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
 import { CartItem, actions } from "./cart.model";
+
 import { RootState } from "../store";
 
-// import { CategoryItem } from '../categories/category.model'
 export type CategoryItem = {
     id: number;
     imageUrl: string;
@@ -32,29 +32,29 @@ const addCartItem = (
 
 const removeCartItem = (
     cartItems: CartItem[],
-    cartItemToRemoveId: number
+    cartItemToRemove: CartItem
 ): CartItem[] => {
     // find the cart item to remove
     const existingCartItem = cartItems.find(
-        (cartItem) => cartItem.id === cartItemToRemoveId
+        (cartItem) => cartItem.id === cartItemToRemove.id
     );
 
     // check if quantity is equal to 1, if it is remove that item from the cart
     if (existingCartItem && existingCartItem.quantity === 1) {
         return cartItems.filter(
-            (cartItem) => cartItem.id !== cartItemToRemoveId
+            (cartItem) => cartItem.id !== cartItemToRemove.id
         );
     }
 
     // return back cartitems with matching cart item with reduced quantity
     return cartItems.map((cartItem) =>
-        cartItem.id === cartItemToRemoveId
+        cartItem.id === cartItemToRemove.id
             ? { ...cartItem, quantity: cartItem.quantity - 1 }
             : cartItem
     );
 };
 
-export const clearCartItem = (
+const clearCartItem = (
     cartItems: CartItem[],
     cartItemToClear: CartItem
 ): CartItem[] =>
@@ -104,18 +104,11 @@ export const useCart = () => {
         dispatch(actions.setCartItems(newCartItems));
     }
 
-    // function removeItemFromCart(
-    //   cartItems: CartItem[],
-    //   cartItemToRemove: CartItem
-    // ) {
-    //   const newCartItems = removeCartItem(cartItems, cartItemToRemove)
-    //   dispatch(actions.setCartItems(newCartItems))
-    // }
     function removeItemFromCart(
         cartItems: CartItem[],
-        cartItemToRemoveId: number
+        cartItemToRemove: CartItem
     ) {
-        const newCartItems = removeCartItem(cartItems, cartItemToRemoveId);
+        const newCartItems = removeCartItem(cartItems, cartItemToRemove);
         dispatch(actions.setCartItems(newCartItems));
     }
 

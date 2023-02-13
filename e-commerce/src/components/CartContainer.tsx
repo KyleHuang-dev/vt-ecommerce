@@ -1,16 +1,17 @@
 import CartItem from "@/src/components/CartItem";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useCart } from "../store/cart/cart.hook";
 import { CART_ACTION_TYPES } from "../store/cart/cart.model";
 
 function CartContainer({ cart = [] }) {
+    const { cartCount: totalQuantity, cartTotal: totalAmount } = useCart();
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch({ type: CART_ACTION_TYPES.GET_TOTAL });
     });
 
-    const totalAmount = useSelector((state) => state.totalAmount);
-    const totalQuantity = useSelector((state) => state.totalQuantity);
     if (cart.length === 0) {
         return (
             <section className="cart">

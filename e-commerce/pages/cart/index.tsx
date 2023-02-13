@@ -1,18 +1,15 @@
 import CartContainer from "@/src/components/CartContainer";
+import { useCart } from "@/src/store/cart/cart.hook";
 import { useDispatch, useSelector } from "react-redux";
-import Product from "../../pruduct"
+import Product from "../../pruduct";
 
+export default function Cart() {
+    const { cartItems } = useCart();
+    const dispatch = useDispatch();
 
-
-
-export default function Cart() { 
-  let cartItems = useSelector(state => state.cartItems)
-  const dispatch = useDispatch()
-  
     return (
         <main>
-          <CartContainer cart={cartItems} />
+            <CartContainer cart={cartItems} />
         </main>
-      );
+    );
 }
-

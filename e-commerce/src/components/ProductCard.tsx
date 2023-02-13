@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import AddToCart from "./AddToCart";
 import {
     Button,
     Card,
@@ -8,9 +10,12 @@ import {
     Grid,
     Typography,
 } from "@mui/material";
+import { useCart } from "../store/cart/cart.hook";
 
 export default function ProductCard({ products }) {
+    const router = useRouter();
     const productList = products;
+    const { addItemToCart, cartItems } = useCart();
 
     return productList.map((product) => (
         <Grid key={product.id} item xs={4}>
@@ -27,10 +32,15 @@ export default function ProductCard({ products }) {
                     <Typography variant="body2" color="text.secondary">
                         {product.price}
                     </Typography>
-                    <Button size="small">View Detail</Button>
+                    <Button
+                        onClick={() => router.push(`items/${product.id}`)}
+                        size="small"
+                    >
+                        View Detail
+                    </Button>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Add to Cart</Button>
+                    <AddToCart product={product} />
                 </CardActions>
             </Card>
         </Grid>

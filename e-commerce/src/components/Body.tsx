@@ -1,5 +1,5 @@
 import ProductCard from "./ProductCard";
-import SearchBar from "./SearchBar";
+
 import Products from "../../pruduct";
 import { Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";

@@ -4,7 +4,7 @@ export default [
         name: "Blue",
         price: 9.99,
         imageUrl: "http://placekitten.com/100/100",
-        quantity: 0,
+        quantity: 1,
     },
     {
         id: 2,
