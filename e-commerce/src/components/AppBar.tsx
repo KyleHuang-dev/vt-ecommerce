@@ -8,11 +8,15 @@ import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useCart } from "../store/cart/cart.hook";
+import CardPreview from "./CartPreview";
+import CartIconButton from "./CartIconButton";
+import CartDropDown from "./CartDropDown";
+import Test from "./test";
 
 export default function NavBar(props) {
     const { sections, title } = props;
 
-    const { cartCount } = useCart();
+    const { cartCount, isCartOpen, setIsCartOpen } = useCart();
 
     return (
         <AppBar
@@ -44,15 +48,12 @@ export default function NavBar(props) {
                             {section.title}
                         </Link>
                     ))}
-
-                    <IconButton aria-label="cart">
-                        <Badge badgeContent={cartCount} color="secondary">
-                            <ShoppingCartIcon />
-                        </Badge>
-                    </IconButton>
+                    <CartIconButton />
+                    <CartDropDown />
+                    <Test />
                 </nav>
 
-                <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+                <Button href="login" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
                     Login
                 </Button>
             </Toolbar>

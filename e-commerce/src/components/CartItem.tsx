@@ -25,11 +25,8 @@ const CartItem = (product) => {
                 </button>
             </div>
             <div>
-                {/* increase amount */}
                 <ChangeQuantityButton buttonProps={incButtonProps} />
-                {/* quantity */}
                 <h2>{quantity}</h2>
-                {/* decrease quantity */}
                 <ChangeQuantityButton buttonProps={decButtonProps} />
             </div>
         </div>

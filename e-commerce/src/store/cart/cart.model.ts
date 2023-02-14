@@ -90,39 +90,15 @@ export const cartReducer = (
         case getType(setCartItems):
             return { ...state, cartItems: action.payload };
 
-        // case getType(setRemoveItemFromCart):
-        //     return {
-        //         ...state,
-        //         cartItems: state.cartItems.filter(
-        //             (cartItem) => cartItem.id !== action.payload.props.id
-        //         ),
-        //     };
         case getType(setRemoveItemFromCart):
             return {
                 ...state,
                 cartItems: action.payload,
             };
-        // case getType(setIncreaseItemFromCar):
-        //     return {
-        //         ...state,
-        //         cartItems: state.cartItems.map((item) => {
-        //             return item.id === action.payload.props.id
-        //                 ? { ...item, quantity: item.quantity + 1 }
-        //                 : item;
-        //         }),
-        // };
 
         case getType(setIncreaseItemFromCar):
             return { ...state, cartItems: action.payload };
-        // case getType(setDecreaseItemFromCar):
-        //     return {
-        //         ...state,
-        //         cartItems: state.cartItems.map((item) => {
-        //             return item.id === action.payload.props.id
-        //                 ? { ...item, quantity: item.quantity - 1 }
-        //                 : item;
-        //         }),
-        //     };
+
         case getType(setDecreaseItemFromCar):
             return { ...state, carItems: action.payload };
 

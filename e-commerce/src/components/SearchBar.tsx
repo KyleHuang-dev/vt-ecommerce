@@ -4,19 +4,20 @@ import Products from "../../pruduct";
 
 export default function SearchBar() {
     const [input, setInput] = useState("");
+    const [products, setProducts] = useState(Products);
     const getInput = (event) => {
         setInput(event.target.value);
     };
 
     function searchData(data: string) {
-        return Products.filter((product) => {
+        let tempArr = Products.filter((product) => {
             const inputData = data.toLocaleLowerCase();
             const productName = product.name.toLowerCase();
 
             return productName.includes(inputData);
         });
+        setProducts(tempArr);
     }
-
     return (
         <>
             <TextField

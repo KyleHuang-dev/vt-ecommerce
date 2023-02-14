@@ -2,7 +2,6 @@ import ProductCard from "./ProductCard";
 import Products from "../../pruduct";
 import { Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";
-import CartPreview from "./CartPreview";
 
 export default function Body() {
     const [input, setInput] = useState("");
@@ -37,8 +36,6 @@ export default function Body() {
                     <ProductCard product={product} />
                 ))}
             </Grid>
-
-            <CartPreview />
         </>
     );
 }
