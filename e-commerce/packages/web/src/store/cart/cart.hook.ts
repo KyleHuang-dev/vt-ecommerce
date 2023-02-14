@@ -4,7 +4,7 @@ import { CartItem, actions } from "./cart.model";
 
 import { RootState } from "../store";
 
-export type CategoryItem = {
+export type ProductItem = {
     id: number;
     imageUrl: string;
     name: string;
@@ -13,7 +13,7 @@ export type CategoryItem = {
 
 const addCartItem = (
     cartItems: CartItem[],
-    productToAdd: CategoryItem
+    productToAdd: ProductItem
 ): CartItem[] => {
     const existingCartItem = cartItems.find(
         (cartItem) => cartItem.id === productToAdd.id
@@ -105,7 +105,7 @@ export const useCart = () => {
         dispatch(actions.setIsCartOpen(value));
     }
 
-    function addItemToCart(cartItems: CartItem[], productToAdd: CategoryItem) {
+    function addItemToCart(cartItems: CartItem[], productToAdd: ProductItem) {
         const newCartItems = addCartItem(cartItems, productToAdd);
         dispatch(actions.setCartItems(newCartItems));
     }

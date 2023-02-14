@@ -1,8 +1,6 @@
-import CartItem from "@/src/components/CartItem";
 import { ActionType, createAction, getType } from "typesafe-actions";
 import pruduct from "@/pruduct";
 
-// import { CategoryItem } from '../categories/category.model'
 export type ProductItem = {
     id: number;
     imageUrl: string;
