@@ -1,15 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
-import { CartItem, actions } from "./cart.model";
-
+import { CartItem, actions, ProductItem } from "./cart.model";
 import { RootState } from "../store";
-
-export type ProductItem = {
-    id: number;
-    imageUrl: string;
-    name: string;
-    price: number;
-};
 
 const addCartItem = (
     cartItems: CartItem[],

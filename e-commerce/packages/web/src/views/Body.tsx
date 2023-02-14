@@ -19,8 +19,12 @@ export default function Body() {
             let tempArr = products.filter((product) => {
                 const inputData = data.toLocaleLowerCase();
                 const productName = product.name.toLowerCase();
+                const productCategory = product.category.toLowerCase();
 
-                return productName.includes(inputData);
+                return (
+                    productName.includes(inputData) ||
+                    productCategory.includes(inputData)
+                );
             });
             setProductList(tempArr);
         }

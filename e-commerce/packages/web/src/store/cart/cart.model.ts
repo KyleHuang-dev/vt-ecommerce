@@ -7,6 +7,7 @@ export type ProductItem = {
     name: string;
     price: number;
     quantity: number;
+    category: string;
 };
 
 export enum CART_ACTION_TYPES {
