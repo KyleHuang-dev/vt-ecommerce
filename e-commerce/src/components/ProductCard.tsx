@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import AddToCart from "./AddToCart";
 import {
     Button,
@@ -9,11 +8,9 @@ import {
     Grid,
     Typography,
 } from "@mui/material";
-import { useCart } from "../store/cart/cart.hook";
+import Link from "next/link";
 
 export default function ProductCard({ product }) {
-    const router = useRouter();
-
     return (
         <Grid key={product.id} item xs={4}>
             <Card sx={{ maxWidth: 200 }}>
@@ -30,7 +27,8 @@ export default function ProductCard({ product }) {
                         {product.price}
                     </Typography>
                     <Button
-                        onClick={() => router.push(`items/${product.id}`)}
+                        component={Link}
+                        href={`/items/${product.id}`}
                         size="small"
                     >
                         View Detail

@@ -1,31 +1,34 @@
+import Popover from "@mui/material/Popover";
+import Button from "@mui/material/Button";
+import CartPreview from "./CartPreview";
 import Badge from "@mui/material/Badge";
-import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useCart } from "../store/cart/cart.hook";
-import Popover from "@mui/material/Popover";
-import CartPreview from "./CartPreview";
-import { Button } from "@mui/material";
+import { useState } from "react";
 
-export default function CartIconButton() {
+export default function BasicPopover() {
     const { cartCount, isCartOpen, setIsCartOpen } = useCart();
 
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setIsCartOpen(!isCartOpen);
+        setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
-        setIsCartOpen(false);
+        setAnchorEl(null);
     };
 
-    const open = Boolean(isCartOpen);
+    const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
+    console.log("here", anchorEl);
 
     return (
         <>
             <Button
                 aria-describedby={id}
                 color="primary"
-                variant="outlined"
+                // variant="contained"
                 onClick={handleClick}
             >
                 <Badge badgeContent={cartCount} color="secondary">
@@ -35,14 +38,14 @@ export default function CartIconButton() {
             <Popover
                 id={id}
                 open={open}
-                anchorEl={isCartOpen}
+                anchorEl={anchorEl}
                 onClose={handleClose}
                 anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "left",
                 }}
             >
-                <CartPreview />;
+                <CartPreview />
             </Popover>
         </>
     );

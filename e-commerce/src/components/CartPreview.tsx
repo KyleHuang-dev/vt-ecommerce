@@ -1,39 +1,36 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useCart } from "../store/cart/cart.hook";
-import { Button, CardMedia } from "@mui/material";
-
-function generate(element: React.ReactElement) {
-    return [0, 1, 2].map((value) =>
-        React.cloneElement(element, {
-            key: value,
-        })
-    );
-}
+import {
+    Button,
+    CardMedia,
+    Typography,
+    Grid,
+    IconButton,
+    ListItemText,
+    ListItemAvatar,
+    ListItem,
+    List,
+    Box,
+} from "@mui/material";
+import Link from "next/link";
 
 export default function CardPreview() {
-    const { cartItems } = useCart();
+    const { cartItems, clearItemFromCart } = useCart();
 
     return (
         <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Grid item xs={12} md={6}>
-                <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-                    Items in the cart
+            <Grid
+                display="flex"
+                direction="column"
+                justifyContent="center"
+                item
+                xs={12}
+                md={6}
+            >
+                <Typography sx={{ m: 2 }} variant="h6" component="div">
+                    {cartItems.length > 0
+                        ? "Items in the cart"
+                        : "No item in the Cart"}
                 </Typography>
                 <Grid>
                     <List>
@@ -41,7 +38,14 @@ export default function CardPreview() {
                             <ListItem
                                 secondaryAction={
                                     <IconButton edge="end" aria-label="delete">
-                                        <DeleteIcon />
+                                        <DeleteIcon
+                                            onClick={() =>
+                                                clearItemFromCart(
+                                                    cartItems,
+                                                    item
+                                                )
+                                            }
+                                        />
                                     </IconButton>
                                 }
                             >
@@ -57,12 +61,18 @@ export default function CardPreview() {
                                     primary={item.name}
                                     secondary={item.price}
                                 />
+                                <Typography variant="h6">
+                                    x {item.quantity}
+                                </Typography>
                             </ListItem>
                         ))}
                     </List>
                 </Grid>
+
+                <Button component={Link} href="/cart" variant="contained">
+                    Check Cart
+                </Button>
             </Grid>
-            <Button>Check Cart</Button>
         </Box>
     );
 }

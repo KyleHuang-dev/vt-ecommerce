@@ -67,6 +67,11 @@ export const selectCartItems = createSelector(
     (cart) => cart.cartItems
 );
 
+export const selectProducts = createSelector(
+    [selectCartReducer],
+    (cart) => cart.products
+);
+
 export const selectIsCartOpen = createSelector(
     [selectCartReducer],
     (cart) => cart.isCartOpen
@@ -89,6 +94,8 @@ export const selectCartTotal = createSelector([selectCartItems], (cartItems) =>
 
 export const useCart = () => {
     const dispatch = useDispatch();
+
+    const products = useSelector(selectProducts);
 
     const cartItems = useSelector(selectCartItems);
     const isCartOpen = useSelector(selectIsCartOpen);
@@ -121,6 +128,7 @@ export const useCart = () => {
     }
 
     return {
+        products,
         cartItems,
         isCartOpen,
         setIsCartOpen,
