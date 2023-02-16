@@ -8,6 +8,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
+import { useUser } from "@/src/store/user/user.hook";
 
 function Copyright(props: any) {
     return (
@@ -27,21 +28,28 @@ function Copyright(props: any) {
     );
 }
 
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
     const password = data.get("password");
 
-    const res = await axios.post("http://localhost:2121/auth/login", {
-        email,
-        password,
-    });
-    console.log(res.data);
+    try {
+        const res = await axios.post("http://localhost:2121/auth/login", {
+            email,
+            password,
+        });
+        const token = res.data;
+        console.log(token);
+        return token;
+    } catch (error) {}
 };
 
 export default function auth() {
+    const { currentUser, setcurrentUser } = useUser();
+    console.log(currentUser);
+
     return (
         <Container component="main" maxWidth="xs">
             <Box
