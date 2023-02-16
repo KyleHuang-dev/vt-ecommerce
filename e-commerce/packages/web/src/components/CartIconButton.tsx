@@ -1,6 +1,6 @@
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
-import CartPreview from "../views/CartPreview";
+import CartPreview from "../components/CartPreview";
 import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useCart } from "../store/cart/cart.hook";

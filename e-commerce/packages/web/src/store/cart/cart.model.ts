@@ -1,5 +1,4 @@
 import { ActionType, createAction, getType } from "typesafe-actions";
-import pruduct from "@/pruduct";
 
 export type ProductItem = {
     id: number;
@@ -18,6 +17,7 @@ export enum CART_ACTION_TYPES {
     DECREASE_ITEM_FROM_CART = "DECREASE_ITEM_FROM_CART",
     CLEAR_CART = "CLEAR_CART",
     GET_TOTAL = "GET_TOTAL",
+    SET_PRODUCTS = "SET_PRODUCTS",
 }
 
 export type CartItem = ProductItem & {
@@ -52,6 +52,10 @@ export const setGetTotal = createAction(CART_ACTION_TYPES.GET_TOTAL)<
     CartItem[] | void
 >();
 
+export const setProducts = createAction(CART_ACTION_TYPES.SET_PRODUCTS)<
+    ProductItem[]
+>();
+
 export const actions = {
     setIsCartOpen,
     setCartItems,
@@ -60,6 +64,7 @@ export const actions = {
     setDecreaseItemFromCar,
     setClearCart,
     setGetTotal,
+    setProducts,
 };
 
 export interface IModel {
@@ -75,7 +80,7 @@ export const CART_INITIAL_STATE: IModel = {
     cartItems: [],
     totalAmount: 0,
     totalQuantity: 0,
-    products: [...pruduct],
+    products: [],
 };
 
 export const cartReducer = (
@@ -100,6 +105,9 @@ export const cartReducer = (
 
         case getType(setDecreaseItemFromCar):
             return { ...state, carItems: action.payload };
+
+        case getType(setProducts):
+            return { ...state, products: action.payload };
 
         case getType(setClearCart):
             return {

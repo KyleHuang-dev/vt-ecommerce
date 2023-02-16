@@ -3,11 +3,13 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import AppBar from "../src/views/AppBar";
+import AppBar from "../src/components/AppBar";
 
 export default function App({ Component, pageProps }: AppProps) {
     const sections = [
         { title: "Home", url: "/" },
+        { title: "Profile", url: "/user/my-profile" },
+        { title: "Search", url: "/search" },
         { title: "Cart", url: "/cart" },
     ];
 

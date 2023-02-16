@@ -97,6 +97,10 @@ export const useCart = () => {
         dispatch(actions.setIsCartOpen(value));
     }
 
+    function setProducts(productList: ProductItem[]) {
+        dispatch(actions.setProducts(productList));
+    }
+
     function addItemToCart(cartItems: CartItem[], productToAdd: ProductItem) {
         const newCartItems = addCartItem(cartItems, productToAdd);
         dispatch(actions.setCartItems(newCartItems));
@@ -128,5 +132,6 @@ export const useCart = () => {
         addItemToCart,
         removeItemFromCart,
         clearItemFromCart,
+        setProducts,
     };
 };
