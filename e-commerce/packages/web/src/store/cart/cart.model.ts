@@ -1,4 +1,10 @@
-import { ActionType, createAction, getType } from "typesafe-actions";
+import {
+    ActionType,
+    createAction,
+    getType,
+    createAsyncAction,
+} from "typesafe-actions";
+import { getTypeParameterOwner } from "typescript";
 
 export type ProductItem = {
     id: number;
@@ -18,11 +24,34 @@ export enum CART_ACTION_TYPES {
     CLEAR_CART = "CLEAR_CART",
     GET_TOTAL = "GET_TOTAL",
     SET_PRODUCTS = "SET_PRODUCTS",
+
+    //Order Saga start from here.
+    CHECK_OUT = "CHECK_OUT",
+    PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS",
+    PLACE_ORDER_FAILED = "PLACE_ORDER_FAILED",
+    PLACE_ORDER_START = "PLACE_ORDER_START",
 }
+
+export const createOrder = createAsyncAction(
+    CART_ACTION_TYPES.PLACE_ORDER_START,
+    CART_ACTION_TYPES.PLACE_ORDER_SUCCESS,
+    CART_ACTION_TYPES.PLACE_ORDER_FAILED
+)<CreateOrderConditions, CartItem[], Error>();
+
+export type CreateOrderConditions = {
+    cartItems: CartItem[];
+};
+
+export type createRequestType = ActionType<typeof createOrder.request>;
+// Order Saga till here
 
 export type CartItem = ProductItem & {
     quantity: number;
 };
+
+export const setCheckOut = createAction(CART_ACTION_TYPES.CHECK_OUT)<
+    CartItem[] | null
+>();
 
 export const setIncreaseItemFromCar = createAction(
     CART_ACTION_TYPES.INCREASE_ITEM_FROM_CART
@@ -65,6 +94,7 @@ export const actions = {
     setClearCart,
     setGetTotal,
     setProducts,
+    setCheckOut,
 };
 
 export interface IModel {
@@ -73,6 +103,8 @@ export interface IModel {
     readonly totalAmount: number;
     readonly totalQuantity: number;
     readonly products: ProductItem[];
+    readonly isLoading: boolean;
+    readonly error: Error | null;
 }
 
 export const CART_INITIAL_STATE: IModel = {
@@ -81,11 +113,13 @@ export const CART_INITIAL_STATE: IModel = {
     totalAmount: 0,
     totalQuantity: 0,
     products: [],
+    isLoading: false,
+    error: null,
 };
 
 export const cartReducer = (
     state: IModel = CART_INITIAL_STATE,
-    action: ActionType<typeof actions>
+    action: ActionType<typeof actions | typeof createOrder>
 ): IModel => {
     switch (action.type) {
         case getType(setIsCartOpen):
@@ -114,6 +148,17 @@ export const cartReducer = (
                 ...state,
                 cartItems: [],
             };
+
+        case getType(setCheckOut):
+            return { ...state, cartItems: action.payload };
+
+        //order Saga
+        case getType(createOrder.request):
+            return { ...state, isLoading: true };
+        case getType(createOrder.success):
+            return { ...state, cartItems: action.payload, isLoading: false };
+        case getType(createOrder.failure):
+            return { ...state, error: action.payload, isLoading: false };
 
         default:
             return state;

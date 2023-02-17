@@ -15,8 +15,12 @@ import IncreaseButton from "../components/IncreaseButton";
 import DecreaseButton from "../components/DecreaseButton";
 
 export default function BasicTable() {
-    const dispatch = useDispatch();
-    const { cartItems, cartTotal } = useCart();
+    const { cartItems, cartTotal, checkOut } = useCart();
+    const checkOutHandler = () => {
+        console.log("check Out, and Total: ", cartTotal);
+        checkOut(cartItems);
+    };
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -73,13 +77,7 @@ export default function BasicTable() {
                         </Typography>
                     </TableCell>
                     <TableCell align="center">
-                        <Button
-                            onClick={() =>
-                                dispatch({ type: CART_ACTION_TYPES.CLEAR_CART })
-                            }
-                        >
-                            Clear the Cart
-                        </Button>
+                        <Button onClick={checkOutHandler}>Check Out</Button>
                     </TableCell>
                 </TableFooter>
             </Table>

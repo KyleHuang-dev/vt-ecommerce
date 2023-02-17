@@ -52,6 +52,8 @@ const clearCartItem = (
 ): CartItem[] =>
     cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
+// const checkOutCartItems = (cartItems: CartItem[]): CartItem[] => {};
+
 const selectCartReducer = (state: RootState) => state.cart;
 
 export const selectCartItems = createSelector(
@@ -122,7 +124,12 @@ export const useCart = () => {
         dispatch(actions.setCartItems(newCartItems));
     }
 
+    function checkOut(cartItems: CartItem[]) {
+        dispatch(actions.setCheckOut([]));
+    }
+
     return {
+        checkOut,
         products,
         cartItems,
         isCartOpen,
