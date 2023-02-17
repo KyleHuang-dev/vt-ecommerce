@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useCart } from "../store/cart/cart.hook";
 import CartIconButton from "./CartIconButton";
+import LoginOrOutButton from "./LoginOrOutButton";
 
 export default function NavBar(props) {
     const { sections, title } = props;
@@ -42,13 +43,7 @@ export default function NavBar(props) {
                     <CartIconButton />
                 </nav>
 
-                <Button
-                    href="/login"
-                    variant="outlined"
-                    sx={{ my: 1, mx: 1.5 }}
-                >
-                    Login
-                </Button>
+                <LoginOrOutButton />
             </Toolbar>
         </AppBar>
     );

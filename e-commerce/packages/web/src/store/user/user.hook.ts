@@ -16,7 +16,7 @@ export const useUser = () => {
 
     const currentUser = useSelector(selectUser);
 
-    async function setcurrentUser(token: any) {
+    async function setcurrentUser(token: Access_Token) {
         dispatch(actions.setCurrentUser(token));
     }
 

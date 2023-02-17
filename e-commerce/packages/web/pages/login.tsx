@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import axios from "axios";
 import { useUser } from "@/src/store/user/user.hook";
+import { Router, useRouter } from "next/router";
 
 function Copyright(props: any) {
     return (
@@ -28,27 +29,30 @@ function Copyright(props: any) {
     );
 }
 
-const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    const email = data.get("email");
-    const password = data.get("password");
-
-    try {
-        const res = await axios.post("http://localhost:2121/auth/login", {
-            email,
-            password,
-        });
-        const token = res.data;
-        console.log(token);
-        return token;
-    } catch (error) {}
-};
-
 export default function auth() {
+    const router = useRouter();
     const { currentUser, setcurrentUser } = useUser();
-    console.log(currentUser);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+
+        const email = data.get("email");
+        const password = data.get("password");
+
+        try {
+            const res = await axios.post("http://localhost:2121/auth/login", {
+                email,
+                password,
+            });
+            const token = res.data;
+            setcurrentUser(token);
+            console.log("currentUser:", currentUser);
+            router.push("/");
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <Container component="main" maxWidth="xs">
