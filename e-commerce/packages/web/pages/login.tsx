@@ -31,27 +31,19 @@ function Copyright(props: any) {
 
 export default function auth() {
     const router = useRouter();
-    const { currentUser, setcurrentUser } = useUser();
+    const { currentUser, logInUser } = useUser();
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        const email = data.get("email");
-        const password = data.get("password");
+        const email = String(data.get("email"));
+        const password = String(data.get("password"));
 
-        try {
-            const res = await axios.post("http://localhost:2121/auth/login", {
-                email,
-                password,
-            });
-            const token = res.data;
-            setcurrentUser(token);
-            console.log("currentUser:", currentUser);
-            router.push("/");
-        } catch (error) {
-            console.log(error);
-        }
+        logInUser(email, password);
+
+        console.log("Login currentUser", currentUser);
+        router.push("/");
     };
 
     return (

@@ -10,30 +10,30 @@ export type Access_Token = {
 } | null;
 
 export enum USER_ACTION_TYPE {
-    SET_CURRENT_USER = "SET_CURRENT_USER",
+    LOG_OUT_USER = "LOG_OUT_USER",
 
-    SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS",
-    SIGN_IN_FAILED = "SIGN_IN_FAILED",
-    SIGN_IN_START = "SIGN_IN_START",
+    LOG_IN_SUCCESS = "LOG_IN_SUCCESS",
+    LOG_IN_FAILED = "LOG_IN_FAILED",
+    LOG_IN_START = "LOG_IN_START",
 }
 
-export const setCurrentUser = createAction(
-    USER_ACTION_TYPE.SET_CURRENT_USER
-)<Access_Token | null>();
+export const logOutUser = createAction(USER_ACTION_TYPE.LOG_OUT_USER)<null>();
 
 export type UserAuthConditions = {
     email: string;
     password: string;
 };
 
-export const fetchCategories = createAsyncAction(
-    USER_ACTION_TYPE.SIGN_IN_START,
-    USER_ACTION_TYPE.SIGN_IN_SUCCESS,
-    USER_ACTION_TYPE.SIGN_IN_FAILED
+export const fetchUser = createAsyncAction(
+    USER_ACTION_TYPE.LOG_IN_START,
+    USER_ACTION_TYPE.LOG_IN_SUCCESS,
+    USER_ACTION_TYPE.LOG_IN_FAILED
 )<UserAuthConditions, Access_Token, Error>();
 
+export type fetchUserRequestType = ActionType<typeof fetchUser.request>;
+
 export const actions = {
-    setCurrentUser,
+    logOutUser,
 };
 
 export interface IModel {
@@ -48,26 +48,20 @@ export const USER_INITIAL_STATE: IModel = {
     error: null,
 };
 
-// export const userReducer = (
-//     state: IModel = USER_INITIAL_STATE,
-//     action: ActionType<typeof actions>
-// ): IModel => {
-//     switch (action.type) {
-//         case getType(setCurrentUser):
-//             return { ...state, currentUser: action.payload };
-
-//         default:
-//             return state;
-//     }
-// };
-
 export const userReducer = (
     state: IModel = USER_INITIAL_STATE,
-    action: ActionType<typeof actions>
+    action: ActionType<typeof actions | typeof fetchUser>
 ): IModel => {
     switch (action.type) {
-        case getType(setCurrentUser):
+        case getType(logOutUser):
             return { ...state, currentUser: action.payload };
+
+        case getType(fetchUser.request):
+            return { ...state, isLoading: true };
+        case getType(fetchUser.success):
+            return { ...state, currentUser: action.payload, isLoading: false };
+        case getType(fetchUser.failure):
+            return { ...state, error: action.payload, isLoading: false };
 
         default:
             return state;

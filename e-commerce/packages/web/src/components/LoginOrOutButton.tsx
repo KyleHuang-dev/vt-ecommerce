@@ -5,10 +5,10 @@ import { useRouter } from "next/router";
 
 export default function LoginOrOutButton() {
     const router = useRouter();
-    const { currentUser, setcurrentUser } = useUser();
+    const { currentUser, logOutUser } = useUser();
 
     const logoutHandler = () => {
-        setcurrentUser(null);
+        logOutUser();
         router.push("/");
     };
     return currentUser ? (

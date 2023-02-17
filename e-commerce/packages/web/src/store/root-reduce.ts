@@ -7,5 +7,3 @@ export const rootReducer = combineReducers({
     cart: cartReducer,
     user: userReducer,
 });
-
-// export const rootReducer = cartReducer;

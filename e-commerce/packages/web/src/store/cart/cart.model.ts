@@ -115,27 +115,6 @@ export const cartReducer = (
                 cartItems: [],
             };
 
-        // case getType(setGetTotal):
-        //     let { totalQuantity, totalAmount } = state.cartItems.reduce(
-        //         (acc, curItem) => {
-        //             const { price, quantity } = curItem;
-        //             acc.totalQuantity += quantity;
-        //             acc.totalAmount += price * quantity;
-
-        //             return acc;
-        //         },
-        //         {
-        //             totalQuantity: 0,
-        //             totalAmount: 0,
-        //         }
-        //     );
-        //     totalQuantity = parseFloat(totalQuantity.toFixed(2));
-        //     return {
-        //         ...state,
-        //         totalAmount,
-        //         totalQuantity,
-        //     };
-
         default:
             return state;
     }
