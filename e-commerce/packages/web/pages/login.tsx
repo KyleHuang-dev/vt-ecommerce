@@ -41,7 +41,6 @@ export default function login() {
 
         logInUser(email, password);
 
-        console.log("Login currentUser", currentUser);
         router.push("/");
     };
 

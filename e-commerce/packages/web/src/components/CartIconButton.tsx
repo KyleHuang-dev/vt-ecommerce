@@ -21,7 +21,6 @@ export default function BasicPopover() {
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
-    console.log("here", anchorEl);
 
     return (
         <>
