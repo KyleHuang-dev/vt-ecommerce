@@ -1,11 +1,14 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 
-export default function ItemDetail(props) {
+export default function ProductDetail(props) {
+    const { name, price, description, imageUrl } = props;
+
     return (
         <>
-            <h1>{props.id}</h1>
-            <h1>{props.name}</h1>
+            <img src={imageUrl} alt="" />
+            <h1>{name}</h1>
+            <h4>{price}</h4>
+            <h4>{description}</h4>
         </>
     );
 }

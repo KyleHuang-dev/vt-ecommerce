@@ -2,7 +2,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
 import { Token } from "typescript";
 import { RootState } from "../store";
-import { Access_Token, actions, fetchUser, IModel } from "./user.model";
+import {
+    Access_Token,
+    actions,
+    createUser,
+    fetchUser,
+    IModel,
+} from "./user.model";
 
 const selectUserReducer = (state: RootState): IModel => state.user;
 
@@ -35,10 +41,21 @@ export const useUser = () => {
         );
     }
 
+    function signUpUser(email: string, password: string, userName?: string) {
+        dispatch(
+            createUser.request({
+                email,
+                password,
+                userName,
+            })
+        );
+    }
+
     return {
         currentUser,
         isLoading,
         logInUser,
         logOutUser,
+        signUpUser,
     };
 };

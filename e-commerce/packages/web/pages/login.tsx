@@ -7,9 +7,8 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import axios from "axios";
 import { useUser } from "@/src/store/user/user.hook";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 function Copyright(props: any) {
     return (
@@ -29,7 +28,7 @@ function Copyright(props: any) {
     );
 }
 
-export default function auth() {
+export default function login() {
     const router = useRouter();
     const { currentUser, logInUser } = useUser();
 
@@ -100,7 +99,7 @@ export default function auth() {
                     <Grid container>
                         <Grid item xs></Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signup" variant="body2">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
