@@ -1,12 +1,12 @@
 import Head from "next/head";
 import axios from "axios";
-import { ProductItem } from "@/src/store/cart/cart.model";
+import { CartItem, ProductItem } from "@/src/store/cart/cart.model";
 import { Grid } from "@mui/material";
 import ProductCard from "@/src/components/ProductCard";
 import { useCart } from "@/src/store/cart/cart.hook";
 
 interface IProductItem {
-    readonly productList: ProductItem[];
+    readonly productList: CartItem[];
 }
 
 export default function Home(props: IProductItem) {
@@ -17,7 +17,7 @@ export default function Home(props: IProductItem) {
     return (
         <>
             <Head>
-                <title>Create Next App</title>
+                <title>E-commerce</title>
                 <meta name="e-commerce" content="lala" />
                 <meta
                     name="viewport"

@@ -18,9 +18,9 @@ export default function Body() {
                 searchStr: data,
             }
         );
-        const rearchResult = respon.data;
+        const searchResult = respon.data;
         console.log(products);
-        return setProducts(rearchResult);
+        return setProducts(searchResult);
     }
 
     return (

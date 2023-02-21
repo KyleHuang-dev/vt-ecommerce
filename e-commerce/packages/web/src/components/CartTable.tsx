@@ -9,16 +9,18 @@ import Paper from "@mui/material/Paper";
 import { useCart } from "../store/cart/cart.hook";
 import DeleteItemButton from "../components/DeleteItemButton";
 import { Button, CardMedia, TableFooter, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { CART_ACTION_TYPES } from "../store/cart/cart.model";
 import IncreaseButton from "../components/IncreaseButton";
 import DecreaseButton from "../components/DecreaseButton";
+import { useUser } from "../store/user/user.hook";
 
-export default function BasicTable() {
-    const { cartItems, cartTotal, checkOut } = useCart();
-    const checkOutHandler = () => {
-        console.log("check Out, and Total: ", cartTotal);
-        checkOut(cartItems);
+export default function CartTable() {
+    const { cartItems, cartTotal, CheckOutOrder } = useCart();
+    const { currentUser } = useUser();
+    const token = currentUser?.access_token;
+    const bearer = `Bearer ${token}`;
+    const cartItemsStr = JSON.stringify(cartItems);
+    const checkOutHandler = async () => {
+        CheckOutOrder(cartTotal, cartItemsStr, bearer);
     };
 
     return (

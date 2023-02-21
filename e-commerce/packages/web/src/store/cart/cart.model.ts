@@ -4,15 +4,22 @@ import {
     getType,
     createAsyncAction,
 } from "typesafe-actions";
-import { getTypeParameterOwner } from "typescript";
+
+export type Order = {
+    id: number;
+    totalAmount: number;
+    cartItems: string;
+    userId: number;
+};
 
 export type ProductItem = {
     id: number;
     imageUrl: string;
     name: string;
     price: number;
-    quantity: number;
+    quantity?: number;
     category: string;
+    description?: string;
 };
 
 export enum CART_ACTION_TYPES {
@@ -36,13 +43,16 @@ export const createOrder = createAsyncAction(
     CART_ACTION_TYPES.PLACE_ORDER_START,
     CART_ACTION_TYPES.PLACE_ORDER_SUCCESS,
     CART_ACTION_TYPES.PLACE_ORDER_FAILED
-)<CreateOrderConditions, CartItem[], Error>();
+)<CreateOrderConditions, [], Error>();
 
 export type CreateOrderConditions = {
-    cartItems: CartItem[];
+    // userToken: string;
+    totalAmount: number;
+    cartItems: string;
+    bearer: string;
 };
 
-export type createRequestType = ActionType<typeof createOrder.request>;
+export type createOrderRequestType = ActionType<typeof createOrder.request>;
 // Order Saga till here
 
 export type CartItem = ProductItem & {
@@ -152,7 +162,7 @@ export const cartReducer = (
         case getType(setCheckOut):
             return { ...state, cartItems: action.payload };
 
-        //order Saga
+        // order Saga
         case getType(createOrder.request):
             return { ...state, isLoading: true };
         case getType(createOrder.success):

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
-import { CartItem, actions, ProductItem } from "./cart.model";
+import { CartItem, actions, ProductItem, createOrder } from "./cart.model";
 import { RootState } from "../store";
 
 const addCartItem = (
@@ -128,6 +128,20 @@ export const useCart = () => {
         dispatch(actions.setCheckOut([]));
     }
 
+    function CheckOutOrder(
+        totalAmount: number,
+        cartItems: string,
+        bearer: string
+    ) {
+        dispatch(
+            createOrder.request({
+                totalAmount,
+                cartItems,
+                bearer,
+            })
+        );
+    }
+
     return {
         checkOut,
         products,
@@ -140,5 +154,6 @@ export const useCart = () => {
         removeItemFromCart,
         clearItemFromCart,
         setProducts,
+        CheckOutOrder,
     };
 };
