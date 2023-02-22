@@ -17,7 +17,7 @@ export type ProductItem = {
     imageUrl: string;
     name: string;
     price: number;
-    quantity?: number;
+    quantity: number | 0;
     category: string;
     description?: string;
 };

@@ -1,9 +1,9 @@
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { useCart } from "../store/cart/cart.hook";
-import IncreaseButton from "./IncreaseButton";
-import DecreaseButton from "./DecreaseButton";
 import { ProductItem } from "../store/cart/cart.model";
 import { CartItem } from "../store/cart/cart.model";
+import QuantityButtonGroup from "./QuantityButtonGroup";
+QuantityButtonGroup;
 
 interface ICartItem {
     readonly product: CartItem;
@@ -11,33 +11,21 @@ interface ICartItem {
 export default function AddToCart({ product }: ICartItem) {
     const { addItemToCart, cartItems } = useCart();
 
-    let button;
-    const isItemInCart = (cart: CartItem[], item: ProductItem) => {
-        const existingCartItem = cart.find(
-            (cartItem) => cartItem.id === item.id
-        );
-        if (existingCartItem) {
-            return (button = (
-                <>
-                    <DecreaseButton product={product} />
-                    <Typography variant="body2" component="div">
-                        {product.quantity}
-                    </Typography>
-                    <IncreaseButton product={item} />
-                </>
-            ));
-        } else {
-            return (button = (
-                <Button
-                    onClick={() => addItemToCart(cartItems, product)}
-                    size="small"
-                >
-                    Add To Cart
-                </Button>
-            ));
-        }
-    };
-    isItemInCart(cartItems, product);
+    function isItemInCart(cart: CartItem[], item: CartItem): boolean {
+        return cart.some((cartItem) => cartItem.id === item.id);
+    }
+    const existingCartItem = isItemInCart(cartItems, product);
 
-    return <>{button}</>;
+    {
+        return existingCartItem ? (
+            <QuantityButtonGroup product={product} />
+        ) : (
+            <Button
+                onClick={() => addItemToCart(cartItems, product)}
+                size="small"
+            >
+                Add To Cart
+            </Button>
+        );
+    }
 }

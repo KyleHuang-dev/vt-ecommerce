@@ -9,8 +9,8 @@ import Paper from "@mui/material/Paper";
 import { useCart } from "../store/cart/cart.hook";
 import DeleteItemButton from "../components/DeleteItemButton";
 import { Button, CardMedia, TableFooter, Typography } from "@mui/material";
-import IncreaseButton from "../components/IncreaseButton";
-import DecreaseButton from "../components/DecreaseButton";
+import IncreaseButton from "./----IncreaseButton";
+import DecreaseButton from "./-----DecreaseButton";
 import { useUser } from "../store/user/user.hook";
 
 export default function CartTable() {
