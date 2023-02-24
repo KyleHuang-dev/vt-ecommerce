@@ -7,14 +7,13 @@ import { useCart } from "../store/cart/cart.hook";
 import CartIconButton from "./CartIconButton";
 import LoginOrOutButton from "./LoginOrOutButton";
 
-interface ISetions {
-    sections: string;
+interface IProps {
     title: string;
+    sections: { title: string; url: string }[];
 }
 
-export default function NavBar(props: ISetions) {
-    const { sections, title } = props;
-
+export default function NavBar(props: IProps) {
+    const { title, sections } = props;
     return (
         <AppBar
             position="static"
@@ -36,7 +35,7 @@ export default function NavBar(props: ISetions) {
                 <nav>
                     {sections.map((section) => (
                         <Link
-                            key={section.id}
+                            key={section.title}
                             variant="button"
                             color="text.primary"
                             href={section.url}

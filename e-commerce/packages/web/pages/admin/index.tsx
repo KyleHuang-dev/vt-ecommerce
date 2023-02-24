@@ -9,6 +9,7 @@ import { useAdmin } from "@/src/store/admin/admin.hooks";
 import OrderList from "@/src/components/OrderList";
 import { useEffect, useState } from "react";
 import { Order } from "@/src/store/cart/cart.model";
+import ProductsTable from "@/src/components/ProductsTable";
 
 interface IType {
     readonly ordersProp: Order[];
@@ -57,10 +58,14 @@ export default function AdminPage() {
                     </Box>
                     <TabPanel value="1">
                         {orders.map((order) => (
-                            <OrderList ordersProp={order} key={order.id} />
+                            <OrderList props={order} key={order.id} />
                         ))}
                     </TabPanel>
-                    <TabPanel value="2">Item Two</TabPanel>
+                    <TabPanel value="2">
+                        {/* {orders.map((order) => (
+                            <ProductsTable props={order} key={order.id} />
+                        ))} */}
+                    </TabPanel>
                     <TabPanel value="3">Item Three</TabPanel>
                 </TabContext>
             </Box>

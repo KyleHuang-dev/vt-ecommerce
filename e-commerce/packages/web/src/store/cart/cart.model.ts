@@ -10,6 +10,7 @@ export type Order = {
     totalAmount: number;
     cartItems: string;
     userId: number;
+    createdAt: string;
 };
 
 export type ProductItem = {

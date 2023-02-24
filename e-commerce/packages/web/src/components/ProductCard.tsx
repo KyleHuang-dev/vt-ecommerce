@@ -1,7 +1,8 @@
-import AddToCart from "../components/AddToCart";
+import AddToCartSwitchButton from "./AddToCartSwitchButton";
 import {
     Button,
     Card,
+    CardActionArea,
     CardActions,
     CardContent,
     CardMedia,
@@ -10,39 +11,57 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { CartItem } from "../store/cart/cart.model";
+import { truncate } from "../../utils/helper";
 
 interface ICartItem {
     readonly product: CartItem;
 }
 
 const ProductCard = ({ product }: ICartItem) => {
+    const { id, name, imageUrl, price, description } = product;
+
     return (
-        <Grid key={product.id} item xs={3}>
-            <Card sx={{ maxWidth: 200 }}>
-                <CardMedia
-                    sx={{ height: 150 }}
-                    image={product.imageUrl}
-                    title={product.name}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {product.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {product.price}
-                    </Typography>
-                    <Button
-                        component={Link}
-                        href={`/products/${product.id}`}
-                        size="small"
+        <Grid container sx={{ p: 1 }} xs={12} md={6}>
+            <CardActionArea>
+                <Card sx={{ display: "flex", height: "100%" }}>
+                    <CardMedia
+                        component="img"
+                        sx={{
+                            width: 250,
+                            display: { xs: "none", sm: "block" },
+                        }}
+                        image={imageUrl}
+                        alt={name}
+                    />
+                    <CardContent
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                        }}
                     >
-                        View Detail
-                    </Button>
-                </CardContent>
-                <CardActions>
-                    <AddToCart product={product} />
-                </CardActions>
-            </Card>
+                        <Typography component="h2" variant="h5">
+                            {name}
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary">
+                            ${price}
+                        </Typography>
+                        <Typography variant="subtitle2" paragraph>
+                            {truncate(description, 120)}
+                            <Button
+                                component={Link}
+                                href={`/products/${id}`}
+                                size="small"
+                            >
+                                View Detail
+                            </Button>
+                        </Typography>
+                        <CardActions>
+                            <AddToCartSwitchButton product={product} />
+                        </CardActions>
+                    </CardContent>
+                </Card>
+            </CardActionArea>
         </Grid>
     );
 };

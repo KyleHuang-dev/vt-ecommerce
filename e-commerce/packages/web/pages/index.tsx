@@ -6,7 +6,7 @@ import ProductCard from "@/src/components/ProductCard";
 import { useCart } from "@/src/store/cart/cart.hook";
 
 interface IProductItem {
-    readonly productList: CartItem[];
+    readonly productList: ProductItem[];
 }
 
 export default function Home(props: IProductItem) {

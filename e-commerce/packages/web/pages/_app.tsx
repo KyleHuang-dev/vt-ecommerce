@@ -1,5 +1,6 @@
 import { persistor, store } from "@/src/store/store";
 import "@/styles/globals.css";
+import { Container } from "@mui/material";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -22,7 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
             <Provider store={store}>
                 <PersistGate persistor={persistor}>
                     <AppBar title="E-Commerce" sections={sections} />
-                    <Component {...pageProps} />
+                    <Container maxWidth="lg">
+                        <main>
+                            <Component {...pageProps} />
+                        </main>
+                    </Container>
                 </PersistGate>
             </Provider>
         </>
