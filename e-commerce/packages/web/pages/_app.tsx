@@ -6,7 +6,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import AppBar from "../src/components/AppBar";
 
 export default function App({ Component, pageProps }: AppProps) {
-    const sections = [
+    interface ISetions {
+        title: string;
+        url: string;
+    }
+    const sections: ISetions[] = [
         { title: "Home", url: "/" },
         { title: "Profile", url: "/user/my-profile" },
         { title: "Search", url: "/search" },

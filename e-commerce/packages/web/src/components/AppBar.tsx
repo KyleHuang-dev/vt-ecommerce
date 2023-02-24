@@ -7,7 +7,12 @@ import { useCart } from "../store/cart/cart.hook";
 import CartIconButton from "./CartIconButton";
 import LoginOrOutButton from "./LoginOrOutButton";
 
-export default function NavBar(props) {
+interface ISetions {
+    sections: string;
+    title: string;
+}
+
+export default function NavBar(props: ISetions) {
     const { sections, title } = props;
 
     return (
