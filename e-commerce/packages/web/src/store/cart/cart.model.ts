@@ -8,7 +8,7 @@ import {
 export type Order = {
     id: number;
     totalAmount: number;
-    cartItems: string;
+    orderItems: string;
     userId: number;
     createdAt: string;
 };

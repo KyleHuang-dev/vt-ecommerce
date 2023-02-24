@@ -111,6 +111,8 @@ export function* fetchProductsAsync({ payload }: fetchProductByIdRequestType) {
                             id
                             name
                             price
+                            imageUrl
+                            category
                         }
                     }
                 `,

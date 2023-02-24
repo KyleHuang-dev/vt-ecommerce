@@ -30,7 +30,7 @@ function Copyright(props: any) {
 
 export default function login() {
     const router = useRouter();
-    const { currentUser, logInUser } = useUser();
+    const { logInUser } = useUser();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

@@ -2,19 +2,11 @@ import { Button, Grid, Typography } from "@mui/material";
 import { useCart } from "../store/cart/cart.hook";
 import { CartItem, ProductItem } from "../store/cart/cart.model";
 
-interface ICartItem {
-    id: number;
-    imageUrl: string;
-    name: string;
-    price: number;
-    quantity: number;
-    category: string;
-    description?: string;
+interface IQuantityButtonGroup {
+    readonly product: CartItem | ProductItem;
 }
 
-export default function QuantityButtonGroup({
-    product,
-}: ICartItem | ProductItem) {
+export default function QuantityButtonGroup({ product }: IQuantityButtonGroup) {
     const { addItemToCart, cartItems, removeItemFromCart } = useCart();
     //helper function
     let quantity = cartItems.map((item) => {

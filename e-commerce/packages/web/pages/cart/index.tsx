@@ -14,7 +14,7 @@ export default function Cart() {
     }
     return (
         <Grid sx={{ px: 5 }}>
-            <ProductsTable product={cartItems} />
+            <ProductsTable products={cartItems} isInHistory={false} />
         </Grid>
     );
 }

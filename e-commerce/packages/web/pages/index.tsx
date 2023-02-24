@@ -1,9 +1,8 @@
-import Head from "next/head";
 import axios from "axios";
-import { CartItem, ProductItem } from "@/src/store/cart/cart.model";
-import { Grid } from "@mui/material";
-import ProductCard from "@/src/components/ProductCard";
+
 import { useCart } from "@/src/store/cart/cart.hook";
+import IndexBody from "../src/views/IndexBody";
+import { ProductItem } from "@/src/store/cart/cart.model";
 
 interface IProductItem {
     readonly productList: ProductItem[];
@@ -14,23 +13,14 @@ export default function Home(props: IProductItem) {
     let { products, setProducts } = useCart();
     setProducts(productList);
 
+    const head = {
+        title: "E-Commerce",
+        name: "e-commerce",
+        content: "whatever for now",
+    };
     return (
         <>
-            <Head>
-                <title>E-commerce</title>
-                <meta name="e-commerce" content="lala" />
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-
-            <Grid container>
-                {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </Grid>
+            <IndexBody productList={products} head={head} />
         </>
     );
 }

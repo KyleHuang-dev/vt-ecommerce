@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -18,8 +18,6 @@ interface IType {
 export default function AdminPage() {
     const { orders, fetchAllOrders, fetchAdminProducts, adminProducts } =
         useAdmin();
-    console.log(orders);
-    console.log(adminProducts);
 
     const [value, setValue] = useState("1");
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -27,14 +25,11 @@ export default function AdminPage() {
     };
 
     useEffect(() => {
-        fetchAllOrders();
+        fetchAdminProducts();
     }, []);
     return (
         <>
-            <h1>Admin Page</h1>
-            {/* <Button onClick={() => fetchAllOrders()}>Orders</Button>
-            <Button onClick={() => fetchAdminProducts()}>Products</Button>
-            <Button>Add Product</Button> */}
+            <Typography variant="h3">Admin Page</Typography>
 
             <Box sx={{ width: "100%", typography: "body1" }}>
                 <TabContext value={value}>
@@ -44,27 +39,29 @@ export default function AdminPage() {
                             aria-label="lab API tabs example"
                         >
                             <Tab
-                                label="All Orders"
+                                label="All Products"
                                 value="1"
-                                onClick={() => fetchAllOrders()}
+                                onClick={() => fetchAdminProducts()}
                             />
                             <Tab
-                                label="All Products"
+                                label="All orders"
                                 value="2"
-                                onClick={() => fetchAdminProducts()}
+                                onClick={() => fetchAllOrders()}
                             />
                             <Tab label="Add Product" value="3" />
                         </TabList>
                     </Box>
                     <TabPanel value="1">
-                        {orders.map((order) => (
-                            <OrderList props={order} key={order.id} />
-                        ))}
+                        <ProductsTable
+                            products={adminProducts}
+                            isInHistory={true}
+                            isInAdmin={true}
+                        />
                     </TabPanel>
                     <TabPanel value="2">
-                        {/* {orders.map((order) => (
-                            <ProductsTable props={order} key={order.id} />
-                        ))} */}
+                        {orders.map((order) => (
+                            <OrderList order={order} key={order.id} />
+                        ))}
                     </TabPanel>
                     <TabPanel value="3">Item Three</TabPanel>
                 </TabContext>
