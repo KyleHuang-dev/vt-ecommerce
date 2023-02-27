@@ -4,7 +4,7 @@ import { Container } from "@mui/material";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import AppBar from "../src/components/AppBar";
+import AppBar from "../src/views/AppBar";
 
 export default function App({ Component, pageProps }: AppProps) {
     interface ISetions {

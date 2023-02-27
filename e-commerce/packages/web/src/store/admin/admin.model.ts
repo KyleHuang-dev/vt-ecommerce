@@ -26,6 +26,15 @@ export type CreateProductInput = {
     description?: string;
 };
 
+export type UpdateProductInput = {
+    id: number;
+    name: string;
+    price: number;
+    imageUrl: string;
+    category: string;
+    description?: string;
+};
+
 export enum ADMIN_ACTION_TYPES {
     FETCH_ORDERS_START = "FETCH_ORDERS_START",
     FETCH_ORDERS_SUCCESS = "FETCH_ORDERS_SUCCESS",
@@ -42,6 +51,14 @@ export enum ADMIN_ACTION_TYPES {
     CREATE_PRODUCT_START = "product/CREATE_PRODUCT_START",
     CREATE_PRODUCT_SUCCESS = "product/CREATE_PRODUCT_SUCCESS",
     CREATE_PRODUCT_FAILED = "product/CREATE_PRODUCT_FAILED",
+
+    UPDATE_PRODUCT_BY_ID_START = "product/UPDATE_PRODUCT_BY_ID_START",
+    UPDATE_PRODUCT_BY_ID_SUCCESS = "product/UPDATE_PRODUCT_BY_ID_SUCCESS",
+    UPDATE_PRODUCT_BY_ID_FAILED = "product/UPDATE_PRODUCT_BY_ID_FAILED",
+
+    DELETE_PRODUCT_BY_ID_START = "product/DELETE_PRODUCT_BY_ID_START",
+    DELETE_PRODUCT_BY_ID_SUCCESS = "product/DELETE_PRODUCT_BY_ID_SUCCESS",
+    DELETE_PRODUCT_BY_ID_FAILED = "product/DELETE_PRODUCT_BY_ID_FAILED",
 }
 
 export const fetchOrders = createAsyncAction(
@@ -62,15 +79,33 @@ export const fetchProductById = createAsyncAction(
     ADMIN_ACTION_TYPES.FETCH_PRODUCT_BY_ID_FAILED
 )<number, ProductItem | null, Error>();
 
+export const updateProductById = createAsyncAction(
+    ADMIN_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_START,
+    ADMIN_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_SUCCESS,
+    ADMIN_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_FAILED
+)<UpdateProductInput, ProductItem[], Error>();
+
+export const deleteProductById = createAsyncAction(
+    ADMIN_ACTION_TYPES.DELETE_PRODUCT_BY_ID_START,
+    ADMIN_ACTION_TYPES.DELETE_PRODUCT_BY_ID_SUCCESS,
+    ADMIN_ACTION_TYPES.DELETE_PRODUCT_BY_ID_FAILED
+)<number, ProductItem[], Error>();
+
 export const createProduct = createAsyncAction(
     ADMIN_ACTION_TYPES.CREATE_PRODUCT_START,
     ADMIN_ACTION_TYPES.CREATE_PRODUCT_SUCCESS,
     ADMIN_ACTION_TYPES.CREATE_PRODUCT_FAILED
-)<CreateProductInput, ProductItem, Error>();
+)<CreateProductInput, ProductItem[], Error>();
 
 export type fetchOrdersRequestType = ActionType<typeof fetchOrders.request>;
 export type fetchProductByIdRequestType = ActionType<
     typeof fetchProductById.request
+>;
+export type updateProductByIdRequestType = ActionType<
+    typeof updateProductById.request
+>;
+export type deleteProductByIdRequestType = ActionType<
+    typeof deleteProductById.request
 >;
 export type createProductRequestType = ActionType<typeof createProduct.request>;
 
@@ -79,6 +114,8 @@ export const AdminActions = {
     fetchProducts,
     fetchProductById,
     createProduct,
+    deleteProductById,
+    updateProductById,
 };
 
 export interface IModel {
@@ -131,12 +168,34 @@ export const adminReducer = (
         case getType(fetchProductById.failure):
             return { ...state, error: action.payload, isLoading: false };
 
+        case getType(updateProductById.request):
+            return { ...state, isLoading: true };
+        case getType(updateProductById.success):
+            return {
+                ...state,
+                adminProducts: action.payload,
+                isLoading: false,
+            };
+        case getType(updateProductById.failure):
+            return { ...state, error: action.payload, isLoading: false };
+
+        case getType(deleteProductById.request):
+            return { ...state, isLoading: true };
+        case getType(deleteProductById.success):
+            return {
+                ...state,
+                adminProducts: action.payload,
+                isLoading: false,
+            };
+        case getType(deleteProductById.failure):
+            return { ...state, error: action.payload, isLoading: false };
+
         case getType(createProduct.request):
             return { ...state, isLoading: true };
         case getType(createProduct.success):
             return {
                 ...state,
-                adminProduct: action.payload,
+                adminProducts: action.payload,
                 isLoading: false,
             };
         case getType(createProduct.failure):

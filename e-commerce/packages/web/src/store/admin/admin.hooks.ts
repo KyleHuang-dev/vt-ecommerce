@@ -1,7 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
 import { RootState } from "../store";
-import { AdminActions, CreateProductInput, IModel } from "./admin.model";
+import {
+    AdminActions,
+    CreateProductInput,
+    IModel,
+    UpdateProductInput,
+} from "./admin.model";
 
 const selectAdminReducer = (state: RootState): IModel => state.admin;
 
@@ -41,6 +46,14 @@ export const useAdmin = () => {
         dispatch(AdminActions.fetchProductById.request(id));
     }
 
+    function updateAdminProductById(id: number, input: UpdateProductInput) {
+        dispatch(AdminActions.updateProductById.request(input));
+    }
+
+    function deleteAdminProductById(id: number) {
+        dispatch(AdminActions.deleteProductById.request(id));
+    }
+
     function fetchAdminProducts() {
         dispatch(AdminActions.fetchProducts.request());
     }
@@ -55,5 +68,7 @@ export const useAdmin = () => {
         createAdminProduct,
         fetchAdminProductById,
         fetchAdminProducts,
+        updateAdminProductById,
+        deleteAdminProductById,
     };
 };

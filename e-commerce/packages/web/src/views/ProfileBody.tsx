@@ -1,7 +1,7 @@
 import { IUser } from "@/pages/user/my-profile";
 import { Button, Grid, Typography } from "@mui/material";
 import Link from "next/link";
-import OrderList from "../components/OrderList";
+import OrderList from "./OrderList";
 
 interface IProfileBody {
     readonly user: IUser;

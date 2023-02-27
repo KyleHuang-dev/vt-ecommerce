@@ -1,7 +1,7 @@
 import { useCart } from "@/src/store/cart/cart.hook";
 import { CartItem } from "@/src/store/cart/cart.model";
 import { Grid, Typography } from "@mui/material";
-import ProductsTable from "../../src/components/ProductsTable";
+import ProductsTable from "../../src/containers/ProductTable/ProductsTable";
 
 export default function Cart() {
     const { cartItems } = useCart();

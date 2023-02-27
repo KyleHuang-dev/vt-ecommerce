@@ -6,13 +6,16 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 import { useAdmin } from "@/src/store/admin/admin.hooks";
-import OrderList from "@/src/components/OrderList";
 import { useEffect, useState } from "react";
 import { Order } from "@/src/store/cart/cart.model";
-import ProductsTable from "@/src/components/ProductsTable";
+import OrderList from "@/src/views/OrderList";
+import ProductsTable from "@/src/containers/ProductTable/ProductsTable";
+import ProductForm from "@/src/components/ProductForm";
+import { ProductItem } from "@/src/store/admin/admin.model";
 
 interface IType {
     readonly ordersProp: Order[];
+    readonly editProduct: ProductItem | null;
 }
 
 export default function AdminPage() {
@@ -27,6 +30,8 @@ export default function AdminPage() {
     useEffect(() => {
         fetchAdminProducts();
     }, []);
+
+    let editProduct = null;
     return (
         <>
             <Typography variant="h3">Admin Page</Typography>
@@ -63,11 +68,11 @@ export default function AdminPage() {
                             <OrderList order={order} key={order.id} />
                         ))}
                     </TabPanel>
-                    <TabPanel value="3">Item Three</TabPanel>
+                    <TabPanel value="3">
+                        <ProductForm />
+                    </TabPanel>
                 </TabContext>
             </Box>
         </>
     );
 }
-
-// export async function getServerSideProps() {}

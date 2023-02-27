@@ -31,24 +31,3 @@ export default function LoginOrOutButton() {
         </Button>
     );
 }
-
-// interface IButtonProp {
-//     clickHandler: () => void;
-//     variant?: string;
-//     color?: string;
-// }
-
-// let buttonProp: IButtonProp ={
-//     clickHandler: loginHandler,
-//     variant: "outlined",
-//     color: "primary",
-// }
-
-// if (!currentUser) {
-//     buttonProp = {
-//         clickHandler: logoutHandler,
-//         variant: "outlined",
-//         color: "error",
-//     };
-
-// const{clickHandler, variant, color} = buttonProp

@@ -9,6 +9,8 @@ import {
     ADMIN_ACTION_TYPES,
     createProduct,
     createProductRequestType,
+    deleteProductById,
+    deleteProductByIdRequestType,
     fetchOrders,
     fetchOrdersRequestType,
     fetchProductById,
@@ -16,6 +18,8 @@ import {
     fetchProducts,
     Order,
     ProductItem,
+    updateProductById,
+    updateProductByIdRequestType,
 } from "./admin.model";
 
 const client = new ApolloClient({
@@ -50,7 +54,7 @@ export function* fetchOrdersAsync({ payload }: fetchOrdersRequestType) {
 
 export function* createProductAsync({ payload }: createProductRequestType) {
     try {
-        const result: ApolloQueryResult<{ createProduct: ProductItem }> =
+        const result: ApolloQueryResult<{ createProduct: ProductItem[] }> =
             yield call(client.mutate, {
                 mutation: gql`
                     mutation createProduct($input: CreateProductInput!) {
@@ -84,7 +88,7 @@ export function* fetchProductByIdAsync({
                     query fetchProductById($id: Int!) {
                         fetchProductById(id: $id) {
                             id
-                            title
+                            name
                             description
                             price
                         }
@@ -98,6 +102,66 @@ export function* fetchProductByIdAsync({
         yield put(fetchProductById.success(result.data.fetchProductById));
     } catch (error) {
         yield put(fetchProductById.failure(error as Error));
+    }
+}
+
+export function* updateProductByIdAsync({
+    payload,
+}: updateProductByIdRequestType) {
+    try {
+        const result: ApolloQueryResult<{ updateProductById: ProductItem[] }> =
+            yield call(client.mutate, {
+                mutation: gql`
+                    mutation updateProductById(
+                        $id: Int!
+                        $input: UpdateProductByIdInput!
+                    ) {
+                        updateProductById(id: $id, input: $input) {
+                            id
+                            name
+                            price
+                            category
+                            imageUrl
+                        }
+                    }
+                `,
+                variables: {
+                    id: payload.id,
+                    input: { ...payload },
+                },
+            });
+
+        yield put(updateProductById.success(result.data.updateProductById));
+    } catch (error) {
+        yield put(updateProductById.failure(error as Error));
+    }
+}
+
+export function* deleteProductByIdAsync({
+    payload,
+}: deleteProductByIdRequestType) {
+    try {
+        const result: ApolloQueryResult<{ deleteProductById: ProductItem[] }> =
+            yield call(client.mutate, {
+                mutation: gql`
+                    mutation deleteProductById($id: Int!) {
+                        deleteProductById(id: $id) {
+                            id
+                            name
+                            price
+                            category
+                            imageUrl
+                        }
+                    }
+                `,
+                variables: {
+                    id: payload,
+                },
+            });
+
+        yield put(deleteProductById.success(result.data.deleteProductById));
+    } catch (error) {
+        yield put(deleteProductById.failure(error as Error));
     }
 }
 
@@ -142,6 +206,20 @@ export function* onFetchAdminProductById() {
     );
 }
 
+export function* onUpdateAdminProductById() {
+    yield takeLatest(
+        ADMIN_ACTION_TYPES.UPDATE_PRODUCT_BY_ID_START,
+        updateProductByIdAsync
+    );
+}
+
+export function* onDeleteAdminProductById() {
+    yield takeLatest(
+        ADMIN_ACTION_TYPES.DELETE_PRODUCT_BY_ID_START,
+        deleteProductByIdAsync
+    );
+}
+
 export function* onFetchAdminProducts() {
     yield takeLatest(
         ADMIN_ACTION_TYPES.FETCH_PRODUCTS_START,
@@ -155,5 +233,7 @@ export function* adminSaga() {
         call(onFetchAdminProducts),
         call(onFetchAdminProductById),
         call(onCreateAdminProduct),
+        call(onUpdateAdminProductById),
+        call(onDeleteAdminProductById),
     ]);
 }
