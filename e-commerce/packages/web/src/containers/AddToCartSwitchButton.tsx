@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { useCart } from "../store/cart/cart.hook";
-import { ProductItem } from "../store/cart/cart.model";
 import { CartItem } from "../store/cart/cart.model";
 import QuantityButtonGroup from "../components/QuantityButtonGroup";
 interface ICartItem {

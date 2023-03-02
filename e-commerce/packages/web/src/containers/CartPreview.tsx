@@ -1,5 +1,4 @@
 import DeleteItemButton from "../components/DeleteItemButton";
-import { useCart } from "../store/cart/cart.hook";
 import {
     Button,
     CardMedia,
@@ -13,10 +12,16 @@ import {
     Box,
 } from "@mui/material";
 import Link from "next/link";
+import { CartItem } from "../store/cart/cart.model";
 
-export default function CardPreview() {
-    const { cartItems, clearItemFromCart } = useCart();
-    const isCartEmpty = cartItems.length > 0 ? false : true;
+export default function CardPreview({
+    onClose,
+    product,
+}: {
+    onClose: () => void;
+    product: CartItem[];
+}) {
+    const isCartEmpty = product.length > 0 ? false : true;
 
     return (
         <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
@@ -33,7 +38,7 @@ export default function CardPreview() {
                 </Typography>
                 <Grid>
                     <List>
-                        {cartItems.map((item) => (
+                        {product.map((item) => (
                             <ListItem
                                 secondaryAction={
                                     <IconButton edge="end" aria-label="delete">
@@ -65,6 +70,7 @@ export default function CardPreview() {
                     component={Link}
                     href={isCartEmpty ? "/" : "/cart"}
                     variant="contained"
+                    onClick={onClose}
                 >
                     {isCartEmpty ? "Continue Shopping" : "Check Cart"}
                 </Button>

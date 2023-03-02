@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -12,6 +12,7 @@ import OrderList from "@/src/views/OrderList";
 import ProductsTable from "@/src/containers/ProductTable/ProductsTable";
 import ProductForm from "@/src/components/ProductForm";
 import { ProductItem } from "@/src/store/admin/admin.model";
+import { useRouter } from "next/router";
 
 interface IType {
     readonly ordersProp: Order[];
@@ -19,6 +20,7 @@ interface IType {
 }
 
 export default function AdminPage() {
+    const router = useRouter();
     const { orders, fetchAllOrders, fetchAdminProducts, adminProducts } =
         useAdmin();
 
@@ -69,7 +71,7 @@ export default function AdminPage() {
                         ))}
                     </TabPanel>
                     <TabPanel value="3">
-                        <ProductForm />
+                        <ProductForm onClose={fetchAdminProducts} />
                     </TabPanel>
                 </TabContext>
             </Box>

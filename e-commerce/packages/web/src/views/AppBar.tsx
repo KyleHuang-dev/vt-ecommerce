@@ -4,8 +4,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useCart } from "../store/cart/cart.hook";
-import CartIconButton from "../containers/CartIconButton";
 import LoginOrOutButton from "../components/LoginOrOutButton";
+import Popover from "../components/Popover";
+import CartPreview from "../containers/CartPreview";
+import { Badge } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 interface IProps {
     title: string;
@@ -13,6 +16,8 @@ interface IProps {
 }
 
 export default function NavBar(props: IProps) {
+    const { cartCount, isCartOpen, setIsCartOpen, cartItems } = useCart();
+
     const { title, sections } = props;
     return (
         <AppBar
@@ -44,7 +49,16 @@ export default function NavBar(props: IProps) {
                             {section.title}
                         </Link>
                     ))}
-                    <CartIconButton />
+                    <Popover
+                        title={
+                            <Badge badgeContent={cartCount} color="secondary">
+                                <ShoppingCartIcon />
+                            </Badge>
+                        }
+                        Component={CartPreview}
+                        product={cartItems}
+                    />
+                    {/* <CartIconButton /> */}
                 </nav>
 
                 <LoginOrOutButton />

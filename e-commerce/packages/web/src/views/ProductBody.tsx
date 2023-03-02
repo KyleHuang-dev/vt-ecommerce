@@ -9,22 +9,28 @@ export default function ProductBody({ product }: IProductBody) {
     const { name, price, description, imageUrl } = product;
 
     return (
-        <Grid container padding={5}>
+        <Grid container padding={5} display="flex" direction={"column"}>
             <Grid display={"flex"}>
-                <Grid>
+                <Grid width="40%">
                     <img src={imageUrl} alt={name} width="400px" />
                 </Grid>
                 <Grid
+                    width="50%"
+                    padding={4}
                     display={"flex"}
                     flexDirection={"column"}
-                    justifyItems={"center"}
+                    alignItems={"center"}
+                    justifyContent={"space-around"}
                 >
                     <Typography variant="h3">{name}</Typography>
-                    <Typography variant="h4">{price}</Typography>
+                    <Typography variant="h4">${price}</Typography>
                     <AddToCartSwitchButton product={product} />
                 </Grid>
             </Grid>
-            <Grid>{description}</Grid>
+            <Grid padding={3}>
+                <Typography variant="h5">description</Typography>
+                <Grid padding={3}>{description}</Grid>
+            </Grid>
         </Grid>
     );
 }

@@ -1,4 +1,5 @@
 import DeleteItemButton from "@/src/components/DeleteItemButton";
+import Popover from "@/src/components/Popover";
 import ProductForm from "@/src/components/ProductForm";
 import QuantityButtonGroup from "@/src/components/QuantityButtonGroup";
 import { useAdmin } from "@/src/store/admin/admin.hooks";
@@ -22,10 +23,6 @@ export default function ProductTableBody(props: IProductTableBody) {
     const { products, isInHistory, isInAdmin } = props;
     const { deleteAdminProductById } = useAdmin();
 
-    const [showForm, setShowForm] = useState(false);
-    const showFormHandler = () => {
-        setShowForm(!showForm);
-    };
     return (
         <>
             <TableBody>
@@ -74,12 +71,12 @@ export default function ProductTableBody(props: IProductTableBody) {
                                 >
                                     Detail
                                 </Button>
-                                <Button
-                                    color="warning"
-                                    onClick={showFormHandler}
-                                >
-                                    Edit
-                                </Button>
+
+                                <Popover
+                                    title={"Edit"}
+                                    Component={ProductForm}
+                                    product={row}
+                                />
                                 <Button
                                     color="error"
                                     onClick={() =>
@@ -88,14 +85,6 @@ export default function ProductTableBody(props: IProductTableBody) {
                                 >
                                     Delete
                                 </Button>
-                                {showForm && (
-                                    <div>
-                                        <ProductForm
-                                            product={row}
-                                            id={row.id}
-                                        />
-                                    </div>
-                                )}
                             </TableCell>
                         )}
                     </TableRow>

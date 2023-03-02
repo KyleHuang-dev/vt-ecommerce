@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import {
     Formik,
     Field,
@@ -18,7 +18,7 @@ import { useAdmin } from "../store/admin/admin.hooks";
  * - Nested fields - the name can use dot syntax and even update nested arrays
  */
 
-interface IProduct {
+export interface IProduct {
     readonly id?: number;
     readonly name: string;
     readonly price: number;
@@ -27,17 +27,26 @@ interface IProduct {
     // readonly description?: string;
 }
 
-const ProductForm = ({ product, id }: { product?: IProduct; id?: number }) => {
+const ProductForm = ({
+    product,
+    id,
+    onClose,
+}: {
+    product?: IProduct;
+    id?: number;
+    onClose: () => void;
+}) => {
     const { createAdminProduct, updateAdminProductById } = useAdmin();
 
     const onSubmitHandler = (values: IProduct) => {
         if (id) updateAdminProductById(id, { ...values, id });
         if (!product) createAdminProduct(values);
+        onClose();
     };
 
     return (
-        <>
-            <h1>Create Product</h1>
+        <Grid>
+            <Typography>Product</Typography>
             <Formik
                 initialValues={{
                     name: product?.name || "",
@@ -49,30 +58,44 @@ const ProductForm = ({ product, id }: { product?: IProduct; id?: number }) => {
                 onSubmit={(values: IProduct) => onSubmitHandler(values)}
             >
                 <Form>
-                    <label htmlFor="name">Name</label>
-                    <Field id="name" name="name" placeholder="Product Name" />
+                    <Grid>
+                        {" "}
+                        <label htmlFor="name">Name</label>
+                        <Field
+                            id="name"
+                            name="name"
+                            placeholder="Product Name"
+                        />
+                    </Grid>
+                    <Grid>
+                        {" "}
+                        <label htmlFor="price">price</label>
+                        <Field
+                            id="price"
+                            type="number"
+                            name="price"
+                            placeholder="Product Price"
+                        />
+                    </Grid>
+                    <Grid>
+                        {" "}
+                        <label htmlFor="category">category</label>
+                        <Field
+                            id="category"
+                            name="category"
+                            placeholder="P category"
+                        />
+                    </Grid>
+                    <Grid>
+                        {" "}
+                        <label htmlFor="imageUrl">imageUrl</label>
+                        <Field
+                            id="imageUrl"
+                            name="imageUrl"
+                            placeholder="P imageUrl"
+                        />
+                    </Grid>
 
-                    <label htmlFor="price">price</label>
-                    <Field
-                        id="price"
-                        type="number"
-                        name="price"
-                        placeholder="Product Price"
-                    />
-
-                    <label htmlFor="category">category</label>
-                    <Field
-                        id="category"
-                        name="category"
-                        placeholder="P category"
-                    />
-
-                    <label htmlFor="imageUrl">imageUrl</label>
-                    <Field
-                        id="imageUrl"
-                        name="imageUrl"
-                        placeholder="P imageUrl"
-                    />
                     {/* 
                     <label htmlFor="description">description</label>
                     <Field
@@ -81,10 +104,12 @@ const ProductForm = ({ product, id }: { product?: IProduct; id?: number }) => {
                         placeholder="P description"
                     /> */}
 
-                    <button type="submit">Submit</button>
+                    <Button type="submit" variant="contained">
+                        Submit
+                    </Button>
                 </Form>
             </Formik>
-        </>
+        </Grid>
     );
 };
 export default ProductForm;

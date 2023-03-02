@@ -37,7 +37,7 @@ export default function OrderList({ order }: IOrderList) {
                         Date:{createdAt}
                     </Typography>
                     <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                        {totalAmount}
+                        ${totalAmount}
                     </Typography>
                     <Typography sx={{ width: "33%", flexShrink: 0 }}>
                         User ID:{userId}

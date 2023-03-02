@@ -1,6 +1,4 @@
-import { ProductItem } from "@/src/store/cart/cart.model";
 import { TableCell, TableHead, TableRow } from "@mui/material";
-import { IProductTable } from "../ProductsTable";
 
 interface IProductTableHead {
     readonly isInHistory: boolean;
