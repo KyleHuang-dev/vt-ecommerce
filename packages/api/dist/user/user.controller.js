@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const decortor_1 = require("../decortor");
+const roles_decorator_1 = require("../decortor/roles.decorator");
 const user_service_1 = require("./user.service");
 let UserController = class UserController {
     constructor(userService) {
@@ -28,6 +29,7 @@ let UserController = class UserController {
 __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("jwt")),
     (0, common_1.Get)("my-profile"),
+    (0, roles_decorator_1.Roles)(roles_decorator_1.Role.Admin),
     __param(0, (0, decortor_1.GetUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

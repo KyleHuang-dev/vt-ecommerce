@@ -9,4 +9,5 @@ export declare class AdminProductService {
     create(input: CreateProductInput): Promise<import(".prisma/client").Product[]>;
     update(id: number, input: UpdateProductByIdInput): Promise<import(".prisma/client").Product[]>;
     delete(id: number): Promise<import(".prisma/client").Product[]>;
+    getAdmin(): Promise<void>;
 }

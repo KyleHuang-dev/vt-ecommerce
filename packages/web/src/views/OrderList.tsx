@@ -10,10 +10,14 @@ import ProductsTable from "../containers/ProductTable/ProductsTable";
 
 interface IOrderList {
     readonly order: Order;
+    readonly isInHistory?: boolean;
 }
 
-export default function OrderList({ order }: IOrderList) {
-    const { createdAt, userId, orderItems, totalAmount } = order;
+export default function OrderList({ order, isInHistory }: IOrderList) {
+    const { id, userId, orderItems, totalAmount } = order;
+    let d = isInHistory ? order.createdAt : Number(order.createdAt);
+    let date = new Date(d);
+    let createdAt = date.toDateString();
 
     const [expanded, setExpanded] = useState<string | false>(false);
     const orderItemList: CartItem[] = JSON.parse(orderItems);
@@ -22,6 +26,7 @@ export default function OrderList({ order }: IOrderList) {
         (event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? panel : false);
         };
+
     return (
         <>
             <Accordion
@@ -33,13 +38,16 @@ export default function OrderList({ order }: IOrderList) {
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                 >
-                    <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                        Invoice:{id}
+                    </Typography>
+                    <Typography sx={{ width: "30%", flexShrink: 0 }}>
                         Date:{createdAt}
                     </Typography>
-                    <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "25%", flexShrink: 0 }}>
                         ${totalAmount}
                     </Typography>
-                    <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "25%", flexShrink: 0 }}>
                         User ID:{userId}
                     </Typography>
                 </AccordionSummary>

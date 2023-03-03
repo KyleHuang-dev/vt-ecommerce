@@ -1,4 +1,3 @@
-import OrderList from "@/src/components/OrderList";
 import { Order } from "@/src/store/cart/cart.model";
 import { useUser } from "@/src/store/user/user.hook";
 import ProfileBody from "@/src/views/ProfileBody";

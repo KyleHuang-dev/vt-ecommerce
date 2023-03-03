@@ -1,22 +1,9 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import {
-    Formik,
-    Field,
-    ErrorMessage,
-    FieldProps,
-    Form,
-    FormikHelpers,
-} from "formik";
+import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import { useAdmin } from "../store/admin/admin.hooks";
-/**
- * Important understanding points.
- * - Always use the formik state, never try to control components with useState
- * - Passing values into initialValues can allow you to populate the form for editing some entity
- * - Validation - Yup
- * - Show warnings: Helper text / ErrorMessage / custom getter function
- * - Nested fields - the name can use dot syntax and even update nested arrays
- */
+import TextFieldProps from "@/utils/TextFieldProps";
+import { PropaneSharp } from "@mui/icons-material";
 
 export interface IProduct {
     readonly id?: number;
@@ -45,8 +32,15 @@ const ProductForm = ({
     };
 
     return (
-        <Grid>
-            <Typography>Product</Typography>
+        <Grid
+            sx={{
+                padding: 2,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+        >
+            <Typography variant="h5">Product Information</Typography>
             <Formik
                 initialValues={{
                     name: product?.name || "",
@@ -59,44 +53,53 @@ const ProductForm = ({
             >
                 <Form>
                     <Grid>
-                        {" "}
-                        <label htmlFor="name">Name</label>
-                        <Field
-                            id="name"
-                            name="name"
-                            placeholder="Product Name"
-                        />
-                    </Grid>
-                    <Grid>
-                        {" "}
-                        <label htmlFor="price">price</label>
-                        <Field
-                            id="price"
-                            type="number"
-                            name="price"
-                            placeholder="Product Price"
-                        />
-                    </Grid>
-                    <Grid>
-                        {" "}
-                        <label htmlFor="category">category</label>
-                        <Field
-                            id="category"
-                            name="category"
-                            placeholder="P category"
-                        />
-                    </Grid>
-                    <Grid>
-                        {" "}
-                        <label htmlFor="imageUrl">imageUrl</label>
-                        <Field
-                            id="imageUrl"
-                            name="imageUrl"
-                            placeholder="P imageUrl"
-                        />
-                    </Grid>
+                        <Grid>
+                            <label htmlFor="">Name: </label>
+                            <Field
+                                margin="normal"
+                                id="name"
+                                name="name"
+                                label="Product Name"
+                                // value={product?.name}
+                                // component={TextField}
+                            />
+                        </Grid>
+                        <Grid>
+                            <label htmlFor="">Price: </label>
+                            <Field
+                                margin="normal"
+                                id="price"
+                                type="number"
+                                name="price"
+                                label="Product Price"
+                                // value={product?.price}
+                                // component={TextField}
+                            />
+                        </Grid>
+                        <Grid>
+                            <label htmlFor="">Category: </label>
+                            <Field
+                                margin="normal"
+                                id="category"
+                                name="category"
+                                label="Product Category"
+                                // value={product?.category}
+                                // component={TextField}
+                            />
+                        </Grid>
+                        <Grid>
+                            <label htmlFor="">Image URL: </label>
+                            <Field
+                                margin="normal"
+                                id="imageUrl"
+                                name="imageUrl"
+                                label="Product Image Url"
+                                // value={product?.imageUrl}
+                                // component={TextField}
+                            />
+                        </Grid>
 
-                    {/* 
+                        {/* 
                     <label htmlFor="description">description</label>
                     <Field
                         id="description"
@@ -104,9 +107,8 @@ const ProductForm = ({
                         placeholder="P description"
                     /> */}
 
-                    <Button type="submit" variant="contained">
-                        Submit
-                    </Button>
+                        <button type="submit">Submit</button>
+                    </Grid>
                 </Form>
             </Formik>
         </Grid>

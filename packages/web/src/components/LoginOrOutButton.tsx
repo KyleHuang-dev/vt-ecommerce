@@ -23,7 +23,7 @@ export default function LoginOrOutButton() {
     ) : (
         <Button
             component={Link}
-            href="login"
+            href="/login"
             variant="outlined"
             sx={{ my: 1, mx: 1.5 }}
         >

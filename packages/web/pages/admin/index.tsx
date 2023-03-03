@@ -1,80 +1,63 @@
-import { Button, Grid, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-
 import { useAdmin } from "@/src/store/admin/admin.hooks";
 import { useEffect, useState } from "react";
 import { Order } from "@/src/store/cart/cart.model";
-import OrderList from "@/src/views/OrderList";
-import ProductsTable from "@/src/containers/ProductTable/ProductsTable";
-import ProductForm from "@/src/components/ProductForm";
+
 import { ProductItem } from "@/src/store/admin/admin.model";
 import { useRouter } from "next/router";
+import AdminBody from "@/src/views/AdminBody";
+import axios from "axios";
+import { useUser } from "@/src/store/user/user.hook";
 
-interface IType {
-    readonly ordersProp: Order[];
-    readonly editProduct: ProductItem | null;
+export interface IUser {
+    id: number;
+    email: string;
+    hash: string;
+    isAdmin: boolean;
+    orders: Order[];
+    userName: string | null;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export default function AdminPage() {
-    const router = useRouter();
-    const { orders, fetchAllOrders, fetchAdminProducts, adminProducts } =
-        useAdmin();
+    const { currentUser } = useUser();
+    const [admin, setAdmin] = useState<boolean>(false);
 
-    const [value, setValue] = useState("1");
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+    const token = currentUser?.access_token;
+    const bearer = `Bearer ${token}`;
+    useEffect(() => {
+        async function getAdmin() {
+            try {
+                const res = await axios.get(
+                    //put it in env
+                    `http://localhost:2121/admin`,
+                    {
+                        headers: { Authorization: bearer },
+                    }
+                );
+                setAdmin(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getAdmin();
+    }, []);
+
+    const { orders, fetchAdminProducts, adminProducts, fetchAllOrders } =
+        useAdmin();
 
     useEffect(() => {
         fetchAdminProducts();
+        fetchAllOrders();
     }, []);
 
-    let editProduct = null;
     return (
         <>
-            <Typography variant="h3">Admin Page</Typography>
-
-            <Box sx={{ width: "100%", typography: "body1" }}>
-                <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <TabList
-                            onChange={handleChange}
-                            aria-label="lab API tabs example"
-                        >
-                            <Tab
-                                label="All Products"
-                                value="1"
-                                onClick={() => fetchAdminProducts()}
-                            />
-                            <Tab
-                                label="All orders"
-                                value="2"
-                                onClick={() => fetchAllOrders()}
-                            />
-                            <Tab label="Add Product" value="3" />
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1">
-                        <ProductsTable
-                            products={adminProducts}
-                            isInHistory={true}
-                            isInAdmin={true}
-                        />
-                    </TabPanel>
-                    <TabPanel value="2">
-                        {orders.map((order) => (
-                            <OrderList order={order} key={order.id} />
-                        ))}
-                    </TabPanel>
-                    <TabPanel value="3">
-                        <ProductForm onClose={fetchAdminProducts} />
-                    </TabPanel>
-                </TabContext>
-            </Box>
+            {admin ? (
+                <AdminBody adminProducts={adminProducts} orders={orders} />
+            ) : (
+                <h1>You don't have admin access.</h1>
+            )}
         </>
     );
 }

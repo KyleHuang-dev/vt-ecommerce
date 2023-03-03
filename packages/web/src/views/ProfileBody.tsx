@@ -38,7 +38,11 @@ export default function ProfileBody({ user }: IProfileBody) {
             {!orders
                 ? null
                 : orders.map((order) => (
-                      <OrderList order={order} key={order.id} />
+                      <OrderList
+                          isInHistory={true}
+                          order={order}
+                          key={order.id}
+                      />
                   ))}
         </>
     );

@@ -46,4 +46,8 @@ export class AdminProductService {
         await this.prismaService.product.delete({ where: { id } });
         return this.findAllProducts();
     }
+
+    async getAdmin() {
+        console.log("admin page");
+    }
 }
